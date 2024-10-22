@@ -1,0 +1,65 @@
+name: tripee
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: ^3.5.1
+
+dependencies:
+  cupertino_icons: ^1.0.8
+  get: 4.6.6
+  flutter:
+    sdk: flutter
+  pinput: ^5.0.0
+  image_picker: ^1.1.2
+  google_maps_flutter: ^2.9.0
+  flutter_svg: ^2.0.10+1
+  http: ^1.2.2
+  flutter_polyline_points: ^2.1.0
+
+dev_dependencies:
+  flutter_lints: 4.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/voiture.png
+    - assets/images/onboarding_1.png
+    - assets/images/onboarding_2.png
+    - assets/images/onboarding_3.png
+    - assets/images/banner.png
+    - assets/images/wallet.png
+    - assets/images/wallet_icon.png
+    - assets/icones/activity.svg
+    - assets/icones/colis.svg
+    - assets/icones/message.svg
+    - assets/icones/payment.svg
+    - assets/icones/home.svg
+    - assets/icones/compte.svg
+    - assets/icones/poistionSearch.svg
+    - assets/icones/location_reservation.svg
+    - assets/icones/publication.svg
+    - assets/icones/reservation.svg
+    - assets/icones/wallet_icon.svg
+    - assets/icones/bar.svg
+    - assets/icones/depart.png
+    - assets/icones/arrive.png
+    - assets/icones/button_messagerie.svg
+    - assets/icones/button_check_order.svg
+
+  fonts:
+    - family: PTSans
+      fonts:
+        - asset: assets/fonts/PTSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/PTSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/PTSans-Italic.ttf
+        - asset: assets/fonts/PTSans-BoldItalic.ttf
+          weight: 700
+    - family: Questrial
+      fonts:
+        - asset: assets/fonts/Questrial-Regular.ttf
+          weight: 400
