@@ -10,11 +10,11 @@ Before starting, ensure the following requirements are met:
 
 - Clone the project from the repository using the command:
   ```bash
-  git clone <repository-url>
+  git clone https://github.com/Lameute-Org/tripee.git
   ```
 - Change to the project directory:
   ```bash
-  cd path/to/project
+  cd flutter-frontend
   ```
 - Ensure your development environment is on the same network as the server machine. Connection credentials are specified in the `identifiants_connections_to_backend.dart` file located in the `constants` directory.
 

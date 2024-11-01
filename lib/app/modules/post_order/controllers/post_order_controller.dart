@@ -16,6 +16,7 @@ class PostOrderController extends GetxController {
 
   Map<String, dynamic>? userInfo;
   final searching = false.obs;
+  
 
   @override
   Future<void> onInit() async {
