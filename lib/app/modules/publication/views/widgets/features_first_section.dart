@@ -27,28 +27,40 @@ class FeaturesFirstSection extends StatelessWidget {
                   title: "Date de départ",
                   widget_1: Obx(
                     () => Text(
-                      "${controller.selectedDate.value.day} - ${controller.selectedDate.value.month} - ${controller.selectedDate.value.year}",
+                      "${controller.selectedDate.value.day}-${controller.selectedDate.value.month}-${controller.selectedDate.value.year}",
                       style: Apptheme.ligthTheme.textTheme.titleSmall,
                     ),
                   ),
-                  widget_2: Container(
-                    margin: EdgeInsets.only(right: 1.5.wp),
-                    width: 3.0.wp,
-                    child: IconButton(
-                      onPressed: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2050));
-                        if (pickedDate != null &&
-                            pickedDate != controller.selectedDate.value) {
-                          controller.selectedDate.value = pickedDate;
-                        }
-                      },
-                      icon: Icon(
-                        Icons.date_range_rounded,
-                        color: AppColors.textSecondaryColor,
-                        size: 11.0.sp,
+                  widget_2: GestureDetector(
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2050));
+                      if (pickedDate != null &&
+                          pickedDate != controller.selectedDate.value) {
+                        controller.selectedDate.value = pickedDate;
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 1.5.wp),
+                      width: 3.0.wp,
+                      child: IconButton(
+                        onPressed: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2050));
+                          if (pickedDate != null &&
+                              pickedDate != controller.selectedDate.value) {
+                            controller.selectedDate.value = pickedDate;
+                          }
+                        },
+                        icon: Icon(
+                          Icons.date_range_rounded,
+                          color: AppColors.textSecondaryColor,
+                          size: 11.0.sp,
+                        ),
                       ),
                     ),
                   )),
@@ -56,26 +68,36 @@ class FeaturesFirstSection extends StatelessWidget {
                   title: "Heure de depart",
                   widget_1: Obx(
                     () => Text(
-                      "${controller.selectedTime.value.hour} : ${controller.selectedTime.value.minute}",
+                      " ${controller.selectedTime.value.hour} : ${controller.selectedTime.value.minute} ",
                       style: Apptheme.ligthTheme.textTheme.titleSmall,
                     ),
                   ),
-                  widget_2: Container(
-                    margin: EdgeInsets.only(right: 1.5.wp),
-                    width: 3.0.wp,
-                    child: IconButton(
-                      onPressed: () async {
-                        TimeOfDay? pickedTime = await showTimePicker(
-                            context: context,
-                            initialTime: controller.selectedTime.value);
-                        if (pickedTime != null) {
-                          controller.selectedTime.value = pickedTime;
-                        }
-                      },
-                      icon: Icon(
-                        Icons.timelapse_rounded,
-                        color: AppColors.textSecondaryColor,
-                        size: 11.0.sp,
+                  widget_2: GestureDetector(
+                    onTap: () async {
+                      TimeOfDay? pickedTime = await showTimePicker(
+                          context: context,
+                          initialTime: controller.selectedTime.value);
+                      if (pickedTime != null) {
+                        controller.selectedTime.value = pickedTime;
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 1.5.wp),
+                      width: 3.0.wp,
+                      child: IconButton(
+                        onPressed: () async {
+                          TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime: controller.selectedTime.value);
+                          if (pickedTime != null) {
+                            controller.selectedTime.value = pickedTime;
+                          }
+                        },
+                        icon: Icon(
+                          Icons.timelapse_rounded,
+                          color: AppColors.textSecondaryColor,
+                          size: 11.0.sp,
+                        ),
                       ),
                     ),
                   )),
@@ -96,20 +118,6 @@ class FeaturesFirstSection extends StatelessWidget {
                 widget_2: const SizedBox(),
               ),
               CardFormulaire(
-                title: "Bagages",
-                widget_1: Obx(
-                  () => DropDownCustomized(
-                    itemsList: controller.bagages,
-                    seletedItem: controller.selectedBagages.value,
-                    updateSelectedItem: (p0) => controller.updateSelectedItem(
-                      p0,
-                      controller.selectedBagages,
-                    ),
-                  ),
-                ),
-                widget_2: const SizedBox(),
-              ),
-              CardFormulaire(
                 title: "Vous expediez des colis",
                 widget_1: Obx(
                   () => DropDownCustomized(
@@ -123,21 +131,23 @@ class FeaturesFirstSection extends StatelessWidget {
                 ),
                 widget_2: const SizedBox(),
               ),
-              const CardFormulaire(
+              CardFormulaire(
                 title: "Volume maximal",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.weight.value = p0,
                   keyboardType: TextInputType.number,
                   hintText: "20",
                 ),
-                widget_2: Text("m3"),
+                widget_2: const Text("m3"),
               ),
-              const CardFormulaire(
+              CardFormulaire(
                 title: "Prix unitaire",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.price.value = p0,
                   keyboardType: TextInputType.number,
                   hintText: "1500",
                 ),
-                widget_2: Text("CAD"),
+                widget_2: const Text("CAD"),
               ),
             ],
           ),

@@ -10,6 +10,7 @@ import 'package:tripee/app/core/widgets/card_header.dart';
 import 'package:tripee/app/core/widgets/card_triper.dart';
 import 'package:tripee/app/core/widgets/feature_expedition_edit.dart';
 import 'package:tripee/app/core/widgets/loader_page.dart';
+import 'package:tripee/app/data/models/response_publication_trajet_model.dart';
 import 'package:tripee/app/modules/dasboard/bindings/dashboard_binding.dart';
 import 'package:tripee/app/modules/dasboard/views/dashboard_view.dart';
 import 'package:tripee/app/modules/publication/views/widgets/search.dart';
@@ -19,7 +20,8 @@ import 'package:tripee/app/modules/search_result/views/search_result_view.dart';
 import '../controllers/edit_expedition_controller.dart';
 
 class EditExpeditionView extends GetView<EditExpeditionController> {
-  const EditExpeditionView({super.key});
+  final ResponsePublicationTrajetModel? responsePublicationTrajet;
+  const EditExpeditionView({super.key, this.responsePublicationTrajet});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,11 +54,25 @@ class EditExpeditionView extends GetView<EditExpeditionController> {
                       ],
                     ),
                   ),
-                  const CardTriper(
+                  CardTriper(
+                    id: responsePublicationTrajet!.user.id.toString(),
+                    name: responsePublicationTrajet!.user.userName,
+                    phoneNumber:
+                        responsePublicationTrajet!.user.phoneNumber.toString(),
+                    imagePath: responsePublicationTrajet!.vehicle.imagePath,
                     bottom: 1.0,
                   ),
-                  const Search(),
-                  const FeatureExpeditionEdit(),
+                  Search(
+                    readOnly: controller.reaOnly,
+                    initialValueArrive:
+                        responsePublicationTrajet!.arrivalPlace.name.toString(),
+                    initialValueDepart: responsePublicationTrajet!
+                        .departurePlace.name
+                        .toString(),
+                  ),
+                  FeatureExpeditionEdit(
+                    responsePublicationTrajet: responsePublicationTrajet,
+                  ),
                   Container(
                     width: 100.0.wp,
                     height: 23.0.hp,
@@ -74,10 +90,13 @@ class EditExpeditionView extends GetView<EditExpeditionController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text('Total'),
-                            Text("500",
-                                style: Apptheme
-                                    .ligthTheme.textTheme.headlineLarge!
-                                    .copyWith(color: AppColors.textColor))
+                            Obx(
+                              () => Text(
+                                  "${controller.totalAmount.value.toString()}\$",
+                                  style: Apptheme
+                                      .ligthTheme.textTheme.headlineLarge!
+                                      .copyWith(color: AppColors.textColor)),
+                            )
                           ],
                         ),
                         ButtonsFormulaire(
@@ -99,6 +118,12 @@ class EditExpeditionView extends GetView<EditExpeditionController> {
                           forgroundColor: AppColors.white,
                           borderColor: Colors.transparent,
                           onPressed: () {
+                            controller.getRideInformation(
+                              responsePublicationTrajet!.id,
+                            );
+                            controller.demandExportation(
+                                controller.expeditionController.expeditionModel,
+                                controller.userInfo!['token']);
                             NavigationHelper.navigateToSuccesOrFailedPage(
                                 context,
                                 LoaderPage(

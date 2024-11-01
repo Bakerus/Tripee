@@ -6,12 +6,14 @@ import 'package:tripee/app/core/utils/extesions.dart';
 class TextfieldAccount extends StatelessWidget {
   final String title;
   final Color color;
+  final IconData icon;
   final String hintText;
   final String? initialValue;
   final Function(String) onChanged;
   const TextfieldAccount(
       {super.key,
       required this.color,
+      required this.icon,
       required this.title,
       required this.hintText,
       this.initialValue,
@@ -53,7 +55,7 @@ class TextfieldAccount extends StatelessWidget {
                             child: Center(
                               child: Icon(
                                 size: 16.0.sp,
-                                Icons.search,
+                                icon,
                                 color: AppColors.darkColor.withOpacity(0.7),
                               ),
                             ),
@@ -80,3 +82,4 @@ class TextfieldAccount extends StatelessWidget {
     );
   }
 }
+// Customized textfield created for userAccount section

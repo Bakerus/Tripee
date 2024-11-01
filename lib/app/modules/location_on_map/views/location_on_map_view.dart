@@ -15,7 +15,42 @@ import '../controllers/location_on_map_controller.dart';
 class LocationOnMapView extends GetView<LocationOnMapController> {
   final String state;
   final String action;
-  const LocationOnMapView({super.key, this.state = "", this.action = ""});
+  final String departurePlace;
+  final String arrivalPlace;
+  final String id;
+  final String rideId;
+  final String imagePath;
+  final String userName;
+  final String vehiceNumber;
+  final String vehicleBrand;
+  final String availablePlaces;
+  final String maxPlaces;
+  final String email;
+  final double latitudeDeparture;
+  final double longitudeDeparture;
+  final double latitudeArrival;
+  final double longitudeArrival;
+
+  const LocationOnMapView({
+    super.key,
+    this.state = "",
+    this.action = "",
+    this.departurePlace = "",
+    this.arrivalPlace = "",
+    this.id = "",
+    this.rideId = "",
+    this.imagePath = "",
+    this.userName = "",
+    this.email = "",
+    this.latitudeDeparture = 0.0,
+    this.longitudeDeparture = 0.0,
+    this.latitudeArrival = 0.0,
+    this.longitudeArrival = 0.0,
+    this.vehiceNumber = "",
+    this.vehicleBrand = "",
+    this.availablePlaces = "",
+    this.maxPlaces = "",
+  });
   @override
   Widget build(BuildContext context) {
     Color getStateColor() {
@@ -52,12 +87,16 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
             compassEnabled: true,
-            initialCameraPosition: controller.initialCameraPosition.value,
+            initialCameraPosition: CameraPosition(
+                target: LatLng(latitudeDeparture, longitudeDeparture),
+                zoom: 11.0),
             polylines: Set<Polyline>.from(controller.polylines.values),
             markers: {
               controller.placeDepature.value.copyWith(
+                  positionParam: LatLng(latitudeDeparture, longitudeDeparture),
                   iconParam: AssetMapBitmap("assets/icones/depart.png")),
               controller.placeArrival.value.copyWith(
+                  positionParam: LatLng(latitudeArrival, longitudeArrival),
                   iconParam: AssetMapBitmap("assets/icones/arrive.png")),
             },
             onMapCreated: (GoogleMapController googleMapController) {
@@ -73,7 +112,11 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Search(),
+                Search(
+                  initialValueDepart: departurePlace,
+                  initialValueArrive: arrivalPlace,
+                  readOnly: true,
+                ),
                 if (action == "Publication") const OptionsPostPublication(),
                 if (action != "Publication") const OptionsPayment()
               ],
@@ -84,6 +127,15 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
             top: 63.0.hp,
             right: 8.0.wp,
             child: InfosDriver(
+              id: id,
+              rideId: rideId,
+              imagePath: imagePath,
+              userName: userName,
+              vehiceNumber: vehiceNumber,
+              vehicleBrand: vehicleBrand,
+              email: email,
+              availablePlaces: availablePlaces,
+              maxPlaces: maxPlaces,
               action: action,
             )),
         Positioned(

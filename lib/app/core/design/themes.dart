@@ -90,3 +90,28 @@ class Apptheme {
             )))),
   );
 }
+
+// *****************************************************************************
+// Apptheme
+// 
+// This class defines the application's theme, using Material Design 3 (MD3) 
+// standards. It specifies a light theme that includes colors, typography, 
+// button styles, and other visual elements. The theme leverages predefined 
+// colors from the `AppColors` class to maintain consistency throughout the 
+// app’s UI.
+// 
+// Key features:
+// - Uses Material 3 design principles by setting `useMaterial3: true`.
+// - Specifies the overall app color scheme using `AppColors`, including primary, 
+//   secondary, and error colors, while adjusting contrast colors like 
+//   `onPrimary` and `onSecondary`.
+// - Defines a custom `fontFamily` ("PTSans") to ensure typographic consistency.
+// - Customizes button themes (such as `IconButton` and `ElevatedButton`) and 
+//   text styles for various UI elements using the `TextTheme`.
+// 
+// Usage:
+// - This theme can be applied globally in the app using the `ThemeData` in the 
+//   `MaterialApp` widget. Example usage: `theme: Apptheme.lightTheme`.
+// 
+// 
+// *****************************************************************************

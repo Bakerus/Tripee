@@ -25,6 +25,7 @@ class RecipePaymentView extends GetView<RecipePaymentController> {
           appBar: AppBar(
             title: Text('Tous les payements',
                 style: Apptheme.ligthTheme.textTheme.headlineMedium),
+                automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             elevation: 0,
             bottom: PreferredSize(

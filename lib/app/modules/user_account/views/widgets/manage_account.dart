@@ -15,6 +15,7 @@ class ManageAccount extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.textColor,
         foregroundColor: AppColors.white,
+        automaticallyImplyLeading: false,
         title: const Text('Votre Compte'),
       ),
       body: Stack(
@@ -41,13 +42,18 @@ class ManageAccount extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("Dr Mederos",
-                                style: Apptheme
-                                    .ligthTheme.textTheme.headlineSmall!
-                                    .copyWith(color: AppColors.white)),
-                            Text("+12 **** 7890",
-                                style: Apptheme.ligthTheme.textTheme.bodyMedium!
-                                    .copyWith(color: AppColors.white)),
+                            Obx(
+                              () => Text(controller.username.value,
+                                  style: Apptheme
+                                      .ligthTheme.textTheme.headlineSmall!
+                                      .copyWith(color: AppColors.white)),
+                            ),
+                            Obx(
+                              () => Text(controller.userId.value,
+                                  style: Apptheme
+                                      .ligthTheme.textTheme.bodyMedium!
+                                      .copyWith(color: AppColors.white)),
+                            ),
                             GestureDetector(
                               onTap: () => controller.nextStep(),
                               child: Container(
@@ -137,7 +143,7 @@ class ManageAccount extends StatelessWidget {
                                   ),
                                 ),
                                 const Text(
-                                  "200",
+                                  "0",
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: AppColors.darkColor,
@@ -172,7 +178,7 @@ class ManageAccount extends StatelessWidget {
                                   ),
                                 ),
                                 const Text(
-                                  "-200",
+                                  "-0",
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: AppColors.redColor,
@@ -204,3 +210,4 @@ class ManageAccount extends StatelessWidget {
     );
   }
 }
+// first page of userAccount section 

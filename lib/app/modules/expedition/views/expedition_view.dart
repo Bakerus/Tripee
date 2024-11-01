@@ -21,6 +21,7 @@ import '../controllers/expedition_controller.dart';
 
 class ExpeditionView extends GetView<ExpeditionController> {
   const ExpeditionView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +43,11 @@ class ExpeditionView extends GetView<ExpeditionController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const CardHeader(
-                              icon: Icons.arrow_back,
+                            GestureDetector(
+                              onTap: ()=>Get.back(),
+                              child: const CardHeader(
+                                icon: Icons.arrow_back,
+                              ),
                             ),
                             Text(
                               "Expedier un colis",
@@ -56,8 +60,11 @@ class ExpeditionView extends GetView<ExpeditionController> {
                       const HearderFirstSection(
                         actions: "Detaillez votre expedition",
                       ),
-                      const Search(),
-                       FeaturesExpedition(),
+                      Search(
+                        lieuDepart: controller.lieuDepart,
+                        lieuArrive: controller.lieuArrive,
+                      ),
+                      FeaturesExpedition(),
                       Container(
                         width: 100.0.wp,
                         height: 18.5.hp,
@@ -88,9 +95,14 @@ class ExpeditionView extends GetView<ExpeditionController> {
                               backgroundColor: AppColors.primaryColor,
                               forgroundColor: AppColors.white,
                               borderColor: Colors.transparent,
-                              onPressed: () {
+                              onPressed: () async {
+                                controller.getExpeditionInfos();
+                                await controller.searchTrajet(
+                                    controller.lieuDepart.value,
+                                    controller.lieuArrive.value,
+                                    controller.userInfo!['token']);
                                 NavigationHelper.navigateWithFadeInWithBack(
-                                    context,
+                                    context.mounted ? context : context,
                                     SearchingBinding(),
                                     SearchingView(
                                       transition: () => NavigationHelper

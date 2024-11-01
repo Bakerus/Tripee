@@ -20,6 +20,7 @@ class PostActivityView extends GetView<PostActivityController> {
         appBar: AppBar(
           title: Text('Activité',
               style: Apptheme.ligthTheme.textTheme.headlineMedium),
+              automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
           bottom: TabBar(
@@ -106,8 +107,8 @@ class PostActivityView extends GetView<PostActivityController> {
             ],
           ),
         ),
-        body: const TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+        body:  TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             PostPublicationView(),
             PostOrderView(),

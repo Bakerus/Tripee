@@ -1,36 +1,26 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
-import 'package:tripee/app/data/providers/voyage_provider.dart';
+import 'package:tripee/app/data/services/local_file_services.dart';
 
 class HomeController extends GetxController {
   final lieuDepart = ''.obs;
   final lieuArrive = ''.obs;
-  VoyageProvider voyageProvider = VoyageProvider();
-  // List<PlaceModel?> test1 = [];
-  // List<PlaceModel?> test2 = [];
+  final userName = ''.obs;
+  Map<String, dynamic>? userInfo;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    userInfo = await readUserInformations();
+    userName.value = userInfo!["username"];
+  }
 
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
-  // fetchPlacesInfo({required String place, required bool state}) async {
-  //   if (state == true) {
-  //     test1 =
-  //         await voyageProvider.getInformationsPlace(place: place, state: state);
-  //     print(test1.first!.cityName);
-  //   } else {
-  //     test2 =
-  //         await voyageProvider.getInformationsPlace(place: place, state: state);
-  //     print(test2.first!.cityName);
-  //   }
-  // }
+  Future<Map<String, dynamic>?> readUserInformations() async {
+    final jsonString = await LocalFileServices().readFromFile();
+    if (jsonString != null) {
+      return jsonDecode(jsonString);
+    }
+    return null;
+  }
 }

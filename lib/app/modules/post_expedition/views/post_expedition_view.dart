@@ -8,144 +8,145 @@ import 'package:tripee/app/core/utils/transition_animations.dart';
 import 'package:tripee/app/core/widgets/card_post_activity.dart';
 import 'package:tripee/app/modules/location_on_map/bindings/location_on_map_binding.dart';
 import 'package:tripee/app/modules/location_on_map/views/location_on_map_view.dart';
-import 'package:tripee/app/modules/post_expedition/views/widgets/transporteur_view.dart';
 
 import '../controllers/post_expedition_controller.dart';
 
 class PostExpeditionView extends GetView<PostExpeditionController> {
-  const PostExpeditionView({super.key});
+  PostExpeditionView({super.key});
+  @override
+  final controller = Get.put(PostExpeditionController());
   @override
   Widget build(BuildContext context) {
-    final controller = PostExpeditionController();
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.symmetric(horizontal: 6.5.wp, vertical: 2.0.hp),
+      padding: EdgeInsets.symmetric(horizontal: 5.0.wp, vertical: 2.0.hp),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Obx(
-          () => DropdownButton<String>(
-              borderRadius: BorderRadius.circular(8),
-              underline: const SizedBox(),
-              style: Apptheme.ligthTheme.textTheme.headlineSmall,
-              icon: Container(
-                padding: EdgeInsets.only(left: 1.0.wp),
-                child: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: AppColors.textSecondaryColor,
-                  size: 20.0.sp,
-                ),
-              ),
-              items: controller.expeditionsItems.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              onChanged: (value) {
-                controller.updateSelectedItem(value.toString());
-              },
-              value: controller.selectedItem.value),
-        ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CardPostActivity(
-                  destination: "Destination",
-                  date: "02 Septembre 2024",
-                  state: "Terminé",
-                  amount: '1500',
-                  ontapForDetail: () =>
-                      NavigationHelper.navigateWithFadeWithtBack(
-                          context,
-                          LocationOnMapBinding(),
-                          const LocationOnMapView(
-                            state: "Terminé",
-                            action: "Expedition",
-                          )),
+            child: Obx(
+          () => (controller.searching.value == false)
+              ? const SizedBox.shrink()
+              : FutureBuilder(
+                  future: controller.trajectList,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        strokeWidth: 6,
+                        color: AppColors.primaryColor,
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: AppColors.backgroundColor,
+                              radius: 40.0.sp,
+                              child: Icon(
+                                Icons.close,
+                                color: AppColors.redColor,
+                                size: 40.0.sp,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 13.0.hp,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Aucune expedition trouvée",
+                                        style: Apptheme.ligthTheme.textTheme
+                                            .headlineMedium!
+                                            .copyWith(
+                                          color: AppColors.redColor,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      final trajets = snapshot.data;
+                      return ListView.builder(
+                        itemCount: trajets!.length,
+                        itemBuilder: (context, index) {
+                          final trajet = trajets[index];
+
+                          return CardPostActivity(
+                              destination: trajet.arrivalPLace,
+                              date: trajet.expeditionDate,
+                              state: controller
+                                  .parseStatut(trajet.expeditionStatus),
+                              amount: trajet.price.toString(),
+                              ontapForDeleted: () =>
+                                  controller.deleteExpeditionById(
+                                      trajet.id, controller.userInfo!["token"]),
+                              ontapForDetail: () async {
+                                await controller.fetchDriverInfos(
+                                    trajet.rideId.toString(),
+                                    controller.userInfo!["token"]);
+                                NavigationHelper.navigateWithFadeWithtBack(
+                                    context.mounted ? context : context,
+                                    LocationOnMapBinding(),
+                                    LocationOnMapView(
+                                      departurePlace: controller
+                                          .infoDriverPublication!
+                                          .departurePlace
+                                          .name,
+                                      latitudeDeparture: double.parse(controller
+                                          .infoDriverPublication!
+                                          .departurePlace
+                                          .latitude),
+                                      longitudeDeparture: double.parse(
+                                          controller.infoDriverPublication!
+                                              .departurePlace.longitude),
+                                      latitudeArrival: double.parse(controller
+                                          .infoDriverPublication!
+                                          .arrivalPlace
+                                          .latitude),
+                                      longitudeArrival: double.parse(controller
+                                          .infoDriverPublication!
+                                          .arrivalPlace
+                                          .longitude),
+                                      arrivalPlace: controller
+                                          .infoDriverPublication!
+                                          .arrivalPlace
+                                          .name,
+                                      email: controller
+                                          .infoDriverPublication!.user.email,
+                                      userName: controller
+                                          .infoDriverPublication!.user.userName,
+                                      vehiceNumber: controller
+                                          .infoDriverPublication!
+                                          .vehicle
+                                          .registrationNumber,
+                                      id: controller.infoDriverPublication!.id
+                                          .toString(),
+                                      imagePath: controller
+                                          .infoDriverPublication!
+                                          .vehicle
+                                          .imagePath,
+                                      vehicleBrand: controller
+                                          .infoDriverPublication!
+                                          .vehicle
+                                          .vehicleBrand,
+                                      maxPlaces: controller
+                                          .infoDriverPublication!
+                                          .availablePlaces
+                                          .toString(),
+                                      state: controller
+                                          .parseStatut(trajet.expeditionStatus),
+                                      action: "Expedition",
+                                    ));
+                              });
+                        },
+                      );
+                    }
+                  },
                 ),
-                CardPostActivity(
-                  destination: "Destination",
-                  date: "02 Septembre 2024",
-                  state: "Terminé",
-                  amount: '1500',
-                  ontapForDetail: () =>
-                      NavigationHelper.navigateWithFadeWithtBack(
-                          context,
-                          LocationOnMapBinding(),
-                          const LocationOnMapView(
-                            state: "Terminé",
-                            action: "Expedition",
-                          )),
-                ),
-                CardPostActivity(
-                  destination: "Destination",
-                  date: "02 Septembre 2024",
-                  state: "Terminé",
-                  amount: '1500',
-                  ontapForDetail: () =>
-                      NavigationHelper.navigateWithFadeWithtBack(
-                          context,
-                          LocationOnMapBinding(),
-                          const LocationOnMapView(
-                            state: "Terminé",
-                            action: "Expedition",
-                          )),
-                ),
-                CardPostActivity(
-                  destination: "Destination",
-                  date: "02 Septembre 2024",
-                  state: "Terminé",
-                  amount: '1500',
-                  ontapForDetail: () =>
-                      NavigationHelper.navigateWithFadeWithtBack(
-                          context,
-                          LocationOnMapBinding(),
-                          const LocationOnMapView(
-                            state: "Terminé",
-                            action: "Expedition",
-                          )),
-                ),
-                CardPostActivity(
-                  destination: "Destination",
-                  date: "02 Septembre 2024",
-                  state: "Terminé",
-                  amount: '1500',
-                  ontapForDetail: () =>
-                      NavigationHelper.navigateWithFadeWithtBack(
-                          context,
-                          LocationOnMapBinding(),
-                          const LocationOnMapView(
-                            state: "Terminé",
-                            action: "Expedition",
-                          )),
-                ),
-                CardPostActivity(
-                  destination: "Destination",
-                  date: "02 Septembre 2024",
-                  state: "Terminé",
-                  amount: '1500',
-                  ontapForDetail: () =>
-                      NavigationHelper.navigateWithFadeWithtBack(
-                          context,
-                          LocationOnMapBinding(),
-                          const LocationOnMapView(
-                            state: "Terminé",
-                            action: "Expedition",
-                          )),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Obx(() {
-          if (controller.selectedItem.value.toString() == 'Transporteur') {
-            return const TransporteurView();
-          } else {
-            return const SizedBox
-                .shrink(); // Ne rien afficher si la condition n'est pas remplie
-          }
-        })
+        )),
       ]),
     ));
   }

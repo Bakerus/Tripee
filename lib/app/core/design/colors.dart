@@ -14,3 +14,25 @@ class AppColors {
   static const backgroundColor = Color.fromRGBO(250, 250, 250, 1);
   static const redColor = Color.fromRGBO(235, 87, 87, 1);
 }
+
+
+// *****************************************************************************
+// AppColors
+// 
+// This class provides a centralized definition of the application's color 
+// palette. It defines static constants for frequently used colors throughout 
+// the application, promoting consistency and ease of maintenance for UI 
+// elements that depend on color styling.
+// 
+// Key features:
+// - Defines various custom colors, including primary, secondary, tertiary, 
+//   text, border, and background colors, as well as special use colors such 
+//   as red for alerts.
+// - Colors are represented using the `Color.fromRGBO` method, which specifies 
+//   the red, green, blue, and opacity values.
+// 
+// Usage:
+// - Use these predefined colors throughout the app to ensure a consistent 
+//   color scheme. Example usage in a widget: `AppColors.primaryColor`
+// 
+// *****************************************************************************

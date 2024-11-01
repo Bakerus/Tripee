@@ -8,12 +8,14 @@ class TextfieldHome extends StatelessWidget {
   final Color color;
   final String hintText;
   final String? initialValue;
+  final bool readOnly;
   final Function(String) onChanged;
   const TextfieldHome(
       {super.key,
       required this.color,
       required this.hintText,
       this.initialValue,
+      this.readOnly = false,
       required this.onChanged});
 
   @override
@@ -24,6 +26,7 @@ class TextfieldHome extends StatelessWidget {
       child: TextFormField(
         initialValue: initialValue,
         onChanged: onChanged,
+        readOnly: readOnly,
         decoration: InputDecoration(
           suffixIcon: Padding(
             padding: EdgeInsets.only(right: 3.0.wp),
@@ -58,7 +61,6 @@ class TextfieldHome extends StatelessWidget {
                   child: Center(
                     child: SvgPicture.asset(
                       'assets/icones/poistionSearch.svg',
-                      
                     ),
                   ),
                 ),

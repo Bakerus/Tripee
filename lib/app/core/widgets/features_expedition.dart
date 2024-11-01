@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripee/app/core/design/colors.dart';
-import 'package:tripee/app/core/design/themes.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
 import 'package:tripee/app/core/widgets/card_formulaire.dart';
 import 'package:tripee/app/core/widgets/textfield_formulaire.dart';
@@ -9,7 +7,6 @@ import 'package:tripee/app/modules/expedition/controllers/expedition_controller.
 
 class FeaturesExpedition extends StatelessWidget {
   FeaturesExpedition({super.key});
-
   final controller = Get.put(ExpeditionController());
   @override
   Widget build(BuildContext context) {
@@ -18,91 +15,83 @@ class FeaturesExpedition extends StatelessWidget {
       height: 40.0.hp,
       child: SingleChildScrollView(
         child: SizedBox(
-          height: 50.0.hp,
+          height: 60.0.hp,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CardFormulaire(
-                  title: "Date de départ",
-                  widget_1: Obx(
-                    () => Text(
-                      "${controller.selectedDate.value.day} - ${controller.selectedDate.value.month} - ${controller.selectedDate.value.year}",
-                      style: Apptheme.ligthTheme.textTheme.titleSmall,
-                    ),
-                  ),
-                  widget_2: Container(
-                    margin: EdgeInsets.only(right: 1.5.wp),
-                    width: 3.0.wp,
-                    child: IconButton(
-                      onPressed: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2050));
-                        if (pickedDate != null &&
-                            pickedDate != controller.selectedDate.value) {
-                          controller.selectedDate.value = pickedDate;
-                        }
-                      },
-                      icon: Icon(
-                        Icons.date_range_rounded,
-                        color: AppColors.textSecondaryColor,
-                        size: 11.0.sp,
-                      ),
-                    ),
-                  )),
-              const CardFormulaire(
-                title: "Volume",
+                title: "Longuer",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.packeLength.value = p0,
                   keyboardType: TextInputType.number,
-                  hintText: "20",
+                  hintText: "0",
                 ),
-                widget_2: Text("m3"),
+                widget_2: const Text("m"),
               ),
-              const CardFormulaire(
+              CardFormulaire(
+                title: "Largeur du colis",
+                widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.packeWidth.value = p0,
+                  keyboardType: TextInputType.number,
+                  hintText: "0",
+                ),
+                widget_2: const Text("m"),
+              ),
+              CardFormulaire(
+                title: "Hauteur du colis",
+                widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.packeHeight.value = p0,
+                  keyboardType: TextInputType.number,
+                  hintText: "0",
+                ),
+                widget_2: const Text("m"),
+              ),
+              CardFormulaire(
                 title: "Poids",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.packeWeight.value = p0,
                   keyboardType: TextInputType.number,
-                  hintText: "20",
+                  hintText: "0",
                 ),
-                widget_2: Text("Kg"),
+                widget_2: const Text("Kg"),
               ),
-              const CardFormulaire(
+              CardFormulaire(
                 title: "Prix par kg",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.packePrice.value = p0,
                   keyboardType: TextInputType.number,
-                  hintText: "20",
+                  hintText: "0",
                 ),
-                widget_2: Text("CAD"),
+                widget_2: const Text("\$CAD"),
               ),
               CardFormulaire(
-                  width: 35.0,
-                  title: "Nom du destinataire",
+                  width: 40,
+                  title: "Email du destinataire",
                   widget_1: SizedBox(
-                    width: 30.0.wp,
-                    child: const Center(
-                      child: TextfieldFormulaire(
-                        width: 20.0,
-                        keyboardType: TextInputType.text,
-                        hintText: "Alain Parker",
-                      ),
+                    width: 36.0.wp,
+                    child: TextfieldFormulaire(
+                      onChanged: (p0) =>
+                          controller.emailDestinataire.value = p0,
+                      keyboardType: TextInputType.text,
+                      hintText: "bakehew@gamil.com",
                     ),
                   ),
                   widget_2: const SizedBox()),
               CardFormulaire(
-                  width: 40.0,
-                  title: "Email du destinataire",
+                  width: 62.0,
+                  height: 6.0,
+                  title: "Desciption",
                   widget_1: SizedBox(
-                    width: 32.0.wp,
-                    child: const Center(
-                      child: TextfieldFormulaire(
-                        width: 45.0,
-                        keyboardType: TextInputType.emailAddress,
-                        hintText: "alaiparker@gmail.com",
-                      ),
+                    width: 57.0.wp,
+                    child: TextfieldFormulaire(
+                      onChanged: (p0) => controller.packeDescription.value = p0,
+                      keyboardType: TextInputType.text,
+                      hintText: "",
                     ),
                   ),
-                  widget_2: const SizedBox()),
+                  widget_2: const SizedBox(
+                    width: 0,
+                  )),
             ],
           ),
         ),

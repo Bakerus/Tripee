@@ -1,36 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripee/app/modules/onboardin_screen/views/onboardin_screen_view.dart';
-import 'package:tripee/app/modules/onboardin_screen/bindings/onboardin_screen_binding.dart';
 
 class NavigationHelper {
-  static void navigateToOnboardingPage(BuildContext context) {
-    Get.offAll(
-      () => const OnboardinScreenView(),
-      binding: OnboardinScreenBinding(),
-      transition: Transition.fade,
-      duration: const Duration(seconds: 2),
-    );
-  }
-
   static void navigateWithFadeWithoutBack(
-      BuildContext context, Bindings bindings, Widget view) {
+      BuildContext context, Bindings bindings, Widget view,
+      {int milliseconds = 600}) {
     Get.offAll(
       () => view,
       binding: bindings,
       transition: Transition.fade,
-      duration: const Duration(seconds: 2),
+      curve: Curves.fastEaseInToSlowEaseOut,
+      duration: Duration(milliseconds: milliseconds),
     );
   }
 
   static void navigateWithFadeInWithoutBack(
-      BuildContext context, Bindings binding, Widget view) {
+      BuildContext context, Bindings binding, Widget view,
+      {int milliseconds = 600}) {
     Get.offAll(
       () => view,
       binding: binding,
-      curve: Curves.easeInOut,
       transition: Transition.fadeIn,
-      duration: const Duration(seconds: 2),
+      curve: Curves.fastEaseInToSlowEaseOut,
+      duration: Duration(milliseconds: milliseconds),
     );
   }
 
@@ -40,7 +32,7 @@ class NavigationHelper {
       view,
       binding: bindings,
       transition: Transition.fade,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 600),
     );
   }
 
@@ -49,9 +41,9 @@ class NavigationHelper {
     Get.to(
       view,
       binding: bindings,
-      curve: Curves.easeInOut,
+      curve: Curves.easeIn,
       transition: Transition.fadeIn,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 600),
     );
   }
 
@@ -65,7 +57,7 @@ class NavigationHelper {
             child: child,
           );
         },
-        transitionDuration: const Duration(seconds: 2),
+        transitionDuration: const Duration(milliseconds: 2),
       ),
     );
   }
@@ -84,7 +76,7 @@ class PageTransitionSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: const Duration(seconds: 10),
+      duration: const Duration(milliseconds: 10),
       transitionBuilder: (Widget child, Animation<double> animation) {
         final offsetAnimation = Tween<Offset>(
           begin: Offset(direction.toDouble(), 0.0),
@@ -110,3 +102,37 @@ class PageTransitionSwitcher extends StatelessWidget {
     );
   }
 }
+
+// *****************************************************************************
+// NavigationHelper and PageTransitionSwitcher for Smooth Page Transitions
+//
+// This file contains two classes: `NavigationHelper` and `PageTransitionSwitcher` 
+// designed to manage navigation and smooth page transitions in a Flutter 
+// application.
+//
+// 1. NavigationHelper: A utility class that provides a series of methods to 
+//    navigate between pages using the `GetX` package. It supports various 
+//    transitions such as fade, fadeIn, and others with or without the 
+//    ability to go back to the previous page. This class ensures a consistent 
+//    navigation experience and reduces redundancy across the app by centralizing 
+//    navigation logic.
+//
+// 2. PageTransitionSwitcher: A custom widget that allows for animated transitions 
+//    between pages using a fade and slide combination. This provides a more 
+//    visually appealing way to switch between pages.
+//
+// Features:
+// - Navigate to the onboarding page or any other view with transitions such as 
+//   fade or fadeIn.
+// - Customize transition duration and behavior, with control over whether the 
+//   back button is enabled or disabled.
+// - Smooth animations between different views using `PageTransitionSwitcher`, 
+//   which combines a slide and fade transition.
+//
+// Usage Example:
+// - To navigate to a page without the ability to go back: 
+//   `NavigationHelper.navigateWithFadeWithoutBack(context, binding, view)`
+// - To use a custom page transition: 
+//   `PageTransitionSwitcher(child: yourWidget, direction: 1)`
+//
+// *****************************************************************************

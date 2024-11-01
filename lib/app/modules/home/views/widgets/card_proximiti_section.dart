@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tripee/app/core/design/colors.dart';
 import 'package:tripee/app/core/design/themes.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
-import 'package:tripee/app/core/utils/transition_animations.dart';
-import 'package:tripee/app/modules/confirm_order/bindings/confirm_order_binding.dart';
-import 'package:tripee/app/modules/confirm_order/views/confirm_order_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CardProximitiSection extends StatelessWidget {
@@ -55,8 +52,7 @@ class CardProximitiSection extends StatelessWidget {
                         WidgetStateProperty.all<Color>(AppColors.primaryColor),
                     padding: WidgetStateProperty.all<EdgeInsets>(
                         EdgeInsets.symmetric(horizontal: 2.0.wp))),
-                onPressed: () => NavigationHelper.navigateWithFadeInWithBack(
-                    context, ConfirmOrderBinding(), const ConfirmOrderView()),
+                onPressed: () {},
                 child: const Text("Réserver")),
           )
         ],

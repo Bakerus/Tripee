@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tripee/app/core/design/colors.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
 import 'package:tripee/app/core/widgets/textfield_home.dart';
@@ -8,11 +9,19 @@ class Search extends StatelessWidget {
   final double horizontalMarging;
   final String? initialValueDepart;
   final String? initialValueArrive;
-  const Search(
-      {super.key,
-      this.horizontalMarging = 5.5,
-      this.initialValueDepart,
-      this.initialValueArrive});
+  final bool readOnly;
+  final RxString? lieuDepart;
+  final  RxString? lieuArrive;
+
+  const Search({
+    super.key,
+    this.horizontalMarging = 5.5,
+    this.initialValueDepart,
+    this.initialValueArrive,
+    this.readOnly = false,
+    this.lieuDepart,
+    this.lieuArrive,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +43,25 @@ class Search extends StatelessWidget {
               SizedBox(
                 width: 80.0.wp,
                 child: TextfieldHome(
+                  readOnly: readOnly,
                   initialValue: initialValueDepart,
                   hintText: "Lieu de depart",
                   color: AppColors.grayColor.withOpacity(0.7),
-                  onChanged: (String) {},
+                  onChanged: (valueChanged) {
+                    lieuDepart!.value = valueChanged;
+                  },
                 ),
               ),
               SizedBox(
                 width: 80.0.wp,
                 child: TextfieldHome(
+                  readOnly: readOnly,
                   initialValue: initialValueArrive,
                   hintText: "Trouvez votre destination",
                   color: AppColors.primaryColor.withOpacity(0.05),
-                  onChanged: (String) {},
+                  onChanged: (valueChanged) {
+                    lieuArrive!.value = valueChanged;
+                  },
                 ),
               ),
             ],

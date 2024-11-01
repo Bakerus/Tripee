@@ -15,7 +15,7 @@ class HearderFirstSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("Hello, Mederos"),
+          const Text("Hello"),
           Text(
             actions,
             style: Apptheme.ligthTheme.textTheme.headlineMedium,

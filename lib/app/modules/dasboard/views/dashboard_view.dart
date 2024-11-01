@@ -17,7 +17,7 @@ class DashboardView extends GetView<DashboardController> {
     const HomeView(),
     const PostActivityView(),
     RecipePaymentView(),
-    const RecipeMessageView(),
+     RecipeMessageView(),
      UserAccountView()
   ];
   @override
@@ -36,7 +36,7 @@ class DashboardView extends GetView<DashboardController> {
             return PageTransitionSwitcher(
               direction: direction,
               key: ValueKey<int>(idx),
-              child: page, // Utilisez une clé pour chaque page
+              child: page,
             );
           }).toList(),
         );

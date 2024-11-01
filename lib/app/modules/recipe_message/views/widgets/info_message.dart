@@ -11,27 +11,44 @@ class InfoMessage extends StatelessWidget {
   final String title;
   final String content;
   final String dateReception;
+  final String convId;
+  final int receiverId;
+  final int senderId;
+  final String userName;
   final bool state;
   const InfoMessage(
       {super.key,
-      required this.contactName,
-      required this.title,
-      required this.content,
-      required this.dateReception,
-      required this.state});
+      this.contactName = "",
+      this.title = "",
+      this.content = "",
+      this.dateReception = "",
+      this.convId = "",
+      this.receiverId = 0,
+      this.senderId = 0,
+      this.userName = "",
+      this.state = false});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => NavigationHelper.navigateWithFadeWithtBack(
-          context, DiscussionMessageBinding(), const DiscussionMessageView()),
+          context,
+          DiscussionMessageBinding(),
+          DiscussionMessageView(
+            convId: convId,
+            receiverId: receiverId,
+            senderId: senderId,
+            userName: userName,
+          )),
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 1.0.hp),
         padding: EdgeInsets.only(
-            left: 2.0.wp, right: 4.5.wp, top: 2.0.hp, bottom: 2.0.hp),
+            left: 2.0.wp, right: 8.5.wp, top: 2.0.hp, bottom: 2.0.hp),
         height: 12.0.hp,
+        width: 2.0.wp,
         color: AppColors.white,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(

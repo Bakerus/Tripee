@@ -10,7 +10,7 @@ class CardPostActivity extends StatelessWidget {
   final String amount;
   final void Function()? ontapForDetail;
   final void Function()? ontapForModified;
-
+  final void Function()? ontapForDeleted;
   const CardPostActivity(
       {super.key,
       required this.destination,
@@ -18,7 +18,8 @@ class CardPostActivity extends StatelessWidget {
       required this.state,
       required this.amount,
       this.ontapForDetail,
-      this.ontapForModified});
+      this.ontapForModified,
+      this.ontapForDeleted});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,7 @@ class CardPostActivity extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  amount,
+                  "$amount\$",
                   style: Apptheme.ligthTheme.textTheme.titleMedium!
                       .copyWith(color: AppColors.textSecondaryColor),
                 ),
@@ -128,15 +129,18 @@ class CardPostActivity extends StatelessWidget {
                               size: 12.0.sp, color: AppColors.white),
                         ),
                       ),
-                    Container(
-                      margin: EdgeInsets.only(left: 1.5.wp),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 0.8.hp, horizontal: 2.0.wp),
-                      decoration: BoxDecoration(
-                          color: AppColors.redColor,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.delete,
-                          size: 12.0.sp, color: AppColors.white),
+                    GestureDetector(
+                      onTap: ontapForDeleted,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 1.5.wp),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 0.8.hp, horizontal: 2.0.wp),
+                        decoration: BoxDecoration(
+                            color: AppColors.redColor,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Icon(Icons.delete,
+                            size: 12.0.sp, color: AppColors.white),
+                      ),
                     ),
                   ],
                 ),

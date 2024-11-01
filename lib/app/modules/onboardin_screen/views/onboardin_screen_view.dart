@@ -20,7 +20,9 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(() => AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 1500),
+                  duration: const Duration(milliseconds: 900),
+                  switchInCurve: Curves.easeInOut,
+                  switchOutCurve: Curves.easeInOut,
                   transitionBuilder:
                       (Widget child, Animation<double> animation) {
                     // Animation pour l'élément actuel sortant
@@ -75,7 +77,9 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Obx(() => AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 1500),
+                                duration: const Duration(milliseconds: 900),
+                                switchInCurve: Curves.easeInOut,
+                                switchOutCurve: Curves.easeInOut,
                                 transitionBuilder: (Widget child,
                                     Animation<double> animation) {
                                   final oldOffsetAnimation = Tween<Offset>(
@@ -94,7 +98,7 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                                   ).animate(
                                     CurvedAnimation(
                                       parent: animation,
-                                      curve: Curves.bounceIn,
+                                      curve: Curves.easeInOut,
                                     ),
                                   );
 
@@ -122,7 +126,9 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                                 ),
                               )),
                           Obx(() => AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 1500),
+                                duration: const Duration(milliseconds: 900),
+                                switchInCurve: Curves.easeInOut,
+                                switchOutCurve: Curves.easeInOut,
                                 transitionBuilder: (Widget child,
                                     Animation<double> animation) {
                                   final oldOffsetAnimation = Tween<Offset>(
@@ -142,7 +148,7 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                                   ).animate(
                                     CurvedAnimation(
                                       parent: animation,
-                                      curve: Curves.bounceIn,
+                                      curve: Curves.easeInOut,
                                     ),
                                   );
 
@@ -169,7 +175,9 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                                 ),
                               )),
                           Obx(() => AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 1500),
+                                duration: const Duration(milliseconds: 900),
+                                switchInCurve: Curves.easeInOut,
+                                switchOutCurve: Curves.easeInOut,
                                 transitionBuilder: (Widget child,
                                     Animation<double> animation) {
                                   final oldOffsetAnimation = Tween<Offset>(
@@ -190,7 +198,7 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                                     CurvedAnimation(
                                       parent: animation,
                                       curve: Curves
-                                          .bounceIn, // Courbe d'animation rebondissante
+                                          .easeInOut, // Courbe d'animation rebondissante
                                     ),
                                   );
 
@@ -279,8 +287,9 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
 
   Widget _buildIndicator(bool isActive) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 900),
       margin: EdgeInsets.symmetric(horizontal: 1.0.wp),
+      curve: Curves.easeInOut,
       width: isActive ? 5.0.wp : 1.5.wp,
       height: 0.8.hp,
       decoration: const BoxDecoration(

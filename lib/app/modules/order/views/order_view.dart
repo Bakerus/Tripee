@@ -8,7 +8,6 @@ import 'package:tripee/app/core/utils/transition_animations.dart';
 import 'package:tripee/app/core/widgets/buttons_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_header.dart';
 import 'package:tripee/app/core/widgets/card_triper.dart';
-import 'package:tripee/app/core/widgets/drop_down_customized.dart';
 import 'package:tripee/app/modules/confirm_order/bindings/confirm_order_binding.dart';
 import 'package:tripee/app/modules/confirm_order/views/confirm_order_view.dart';
 import 'package:tripee/app/modules/order/bindings/order_binding.dart';
@@ -20,9 +19,14 @@ import 'package:tripee/app/modules/searching/views/searching_view.dart';
 import '../controllers/order_controller.dart';
 
 class OrderView extends GetView<OrderController> {
-  final String? initialValueDepart;
-  final String? initialValueArrive;
-  const OrderView({super.key, this.initialValueDepart, this.initialValueArrive});
+  final RxString? initialValueDepart;
+  final RxString? initialValueArrive;
+  final bool fromHomePage;
+  const OrderView(
+      {super.key,
+      this.initialValueDepart,
+      this.initialValueArrive,
+      this.fromHomePage = false});
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +46,11 @@ class OrderView extends GetView<OrderController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CardHeader(
-                        icon: Icons.arrow_back,
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: const CardHeader(
+                          icon: Icons.arrow_back,
+                        ),
                       ),
                       Text(
                         "Rechercher un triper",
@@ -55,39 +62,15 @@ class OrderView extends GetView<OrderController> {
                 const HearderFirstSection(
                   actions: "Detaillez votre voyage",
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 7.0.wp),
-                  padding: EdgeInsets.symmetric(horizontal: 3.5.wp),
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(8.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Bagages?",
-                        style: Apptheme.ligthTheme.textTheme.bodyMedium!
-                            .copyWith(
-                                color: AppColors.darkColor,
-                                fontWeight: FontWeight.w700),
-                      ),
-                      Obx(
-                        () => DropDownCustomized(
-                          itemsList: controller.bagages,
-                          seletedItem: controller.selectedBagages.value,
-                          updateSelectedItem: (p0) =>
-                              controller.updateSelectedItem(
-                            p0,
-                            controller.selectedBagages,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Search(
-                  initialValueDepart: initialValueDepart,
-                  initialValueArrive: initialValueArrive,
+                  lieuDepart: (fromHomePage == false)
+                      ? controller.lieuDepart
+                      : initialValueDepart,
+                  lieuArrive: (fromHomePage == false)
+                      ? controller.lieuArrive
+                      : initialValueDepart,
+                  initialValueDepart: initialValueDepart?.value,
+                  initialValueArrive: initialValueArrive?.value,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 7.0.wp),
@@ -98,9 +81,18 @@ class OrderView extends GetView<OrderController> {
                     borderColor: AppColors.primaryColor,
                     backgroundColor: AppColors.primaryColor,
                     forgroundColor: AppColors.white,
-                    onPressed: () {
+                    onPressed: () async {
+                      await controller.searchTrajet(
+                          (fromHomePage == false)
+                              ? controller.lieuDepart.value
+                              : initialValueDepart!.value,
+                          (fromHomePage == false)
+                              ? controller.lieuArrive.value
+                              : initialValueArrive!.value,
+                          controller.userInfo!['token']);
+
                       NavigationHelper.navigateWithFadeWithtBack(
-                          context,
+                          context.mounted ? context : context,
                           SearchingBinding(),
                           SearchingView(
                             transition: () =>
@@ -118,50 +110,84 @@ class OrderView extends GetView<OrderController> {
                   ),
                 ),
                 SizedBox(
-                  height: 43.0.hp,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CardTriper(
-                          ontap: () =>
-                              NavigationHelper.navigateWithFadeWithtBack(
-                                  context,
-                                  ConfirmOrderBinding(),
-                                  const ConfirmOrderView()),
-                        ),
-                        CardTriper(
-                          ontap: () =>
-                              NavigationHelper.navigateWithFadeWithtBack(
-                                  context,
-                                  ConfirmOrderBinding(),
-                                  const ConfirmOrderView()),
-                        ),
-                        CardTriper(
-                          ontap: () =>
-                              NavigationHelper.navigateWithFadeWithtBack(
-                                  context,
-                                  ConfirmOrderBinding(),
-                                  const ConfirmOrderView()),
-                        ),
-                        CardTriper(
-                          ontap: () =>
-                              NavigationHelper.navigateWithFadeWithtBack(
-                                  context,
-                                  ConfirmOrderBinding(),
-                                  const ConfirmOrderView()),
-                        ),
-                        CardTriper(
-                          ontap: () =>
-                              NavigationHelper.navigateWithFadeWithtBack(
-                                  context,
-                                  ConfirmOrderBinding(),
-                                  const ConfirmOrderView()),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                    height: 43.0.hp,
+                    child: Obx(
+                      () => (controller.searching.value == false)
+                          ? const SizedBox.shrink()
+                          : FutureBuilder(
+                              future: controller.trajectList,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator(
+                                    strokeWidth: 6,
+                                    color: AppColors.primaryColor,
+                                  ));
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                    child: Column(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundColor:
+                                              AppColors.backgroundColor,
+                                          radius: 40.0.sp,
+                                          child: Icon(
+                                            Icons.close,
+                                            color: AppColors.redColor,
+                                            size: 40.0.sp,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 13.0.hp,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Aucun trajet trouvé",
+                                                  style: Apptheme.ligthTheme
+                                                      .textTheme.headlineMedium!
+                                                      .copyWith(
+                                                    color: AppColors.redColor,
+                                                  )),
+                                              Text("",
+                                                  textAlign: TextAlign.center,
+                                                  style: Apptheme.ligthTheme
+                                                      .textTheme.bodyMedium),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  final trajets = snapshot.data;
+                                  return ListView.builder(
+                                    itemCount: trajets!.length,
+                                    itemBuilder: (context, index) {
+                                      final trajet = trajets[index];
+                                      return CardTriper(
+                                        ontap: () {
+                                          NavigationHelper
+                                              .navigateWithFadeInWithBack(
+                                                  context,
+                                                  ConfirmOrderBinding(),
+                                                  ConfirmOrderView(
+                                                    responsePublicationTrajetModel:
+                                                        trajet,
+                                                  ));
+                                        },
+                                        phoneNumber: trajet.user.phoneNumber,
+                                        id: trajet.user.id.toString(),
+                                        name: trajet.user.userName,
+                                        imagePath: trajet.vehicle.imagePath,
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                    )),
               ],
             ),
           ),

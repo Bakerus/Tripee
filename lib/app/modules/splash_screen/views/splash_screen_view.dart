@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tripee/app/core/utils/transition_animations.dart';
+import 'package:tripee/app/modules/dasboard/bindings/dashboard_binding.dart';
+import 'package:tripee/app/modules/dasboard/views/dashboard_view.dart';
 import 'package:tripee/app/modules/onboardin_screen/bindings/onboardin_screen_binding.dart';
 import 'package:tripee/app/modules/onboardin_screen/views/onboardin_screen_view.dart';
 
@@ -12,12 +14,21 @@ class SplashScreenView extends GetView<SplashScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    // Transition vers la page d'accueil après l'animation
-    Future.delayed(const Duration(seconds: 6), () {
-      NavigationHelper.navigateWithFadeWithoutBack(
-          context.mounted ? context : context,
-          OnboardinScreenBinding(),
-          const OnboardinScreenView()); 
+// Transition to the next (dashboard or onboarding) page after the animation
+    Future.delayed(const Duration(milliseconds: 3900), () {
+      if (controller.haveAccount.value == true) {
+        NavigationHelper.navigateWithFadeWithoutBack(
+            milliseconds: 1700,
+            context.mounted ? context : context,
+            DashboardBinding(),
+            DashboardView());
+      } else {
+        NavigationHelper.navigateWithFadeWithoutBack(
+            milliseconds: 700,
+            context.mounted ? context : context,
+            OnboardinScreenBinding(),
+            const OnboardinScreenView());
+      }
     });
 
     return Scaffold(
@@ -47,7 +58,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(() => AnimatedContainer(
-                      duration: const Duration(seconds: 1),
+                      duration: const Duration(seconds: 2),
                       curve: Curves.fastEaseInToSlowEaseOut,
                       margin: EdgeInsets.only(
                         bottom: controller.bottomMargin.value,

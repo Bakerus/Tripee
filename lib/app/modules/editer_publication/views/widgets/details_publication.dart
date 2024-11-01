@@ -11,9 +11,9 @@ class DetailsPublication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: SizedBox(
             height: 93.0.hp,
             child: Column(

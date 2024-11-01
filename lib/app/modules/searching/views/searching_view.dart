@@ -14,8 +14,6 @@ class SearchingView extends GetView<SearchingController> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 6), () {
-      // NavigationHelper.navigateWithFadeWithtBack(context, SearchResultBinding(),
-      //     const SearchResultView());
       transition!();
     });
     return Scaffold(

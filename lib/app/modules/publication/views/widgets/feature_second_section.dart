@@ -23,24 +23,26 @@ class FeatureSecondSection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CardFormulaire(
+              CardFormulaire(
                 title: "Marque du vehicule",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) => controller.vehicleBrand.value = p0,
                   keyboardType: TextInputType.text,
                   hintText: "Toyota Tundra",
                   width: 20.0,
                 ),
-                widget_2: SizedBox(),
+                widget_2: const SizedBox(),
               ),
-              const CardFormulaire(
+              CardFormulaire(
                 title: "Numero d'immatriculation",
                 widget_1: TextfieldFormulaire(
+                  onChanged: (p0) =>
+                      controller.vehicleRegisterNumber.value = p0,
                   keyboardType: TextInputType.text,
                   hintText: "AA89BT",
                 ),
-                widget_2: SizedBox(),
+                widget_2: const SizedBox(),
               ),
-          
               CardFormulaire(
                 height: 15.0,
                 padding: 0.0,

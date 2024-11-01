@@ -20,9 +20,9 @@ class HomeView extends GetView<HomeController> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        foregroundColor: AppColors.white,
-        forceMaterialTransparency: true,
-        title: const HeadSection(),
+        automaticallyImplyLeading: false,
+        surfaceTintColor: AppColors.white,
+        title: HeadSection(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -37,6 +37,7 @@ class HomeView extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   WalletSection(),
+                  //This section correspond to part of home page that will show the infromation about amount wallet and ranking of user but for this version we don't implement this fuctionnality
                 ],
               ),
             ),
@@ -46,8 +47,7 @@ class HomeView extends GetView<HomeController> {
               height: 8.0.hp,
               width: 100.0.wp,
               margin: EdgeInsets.symmetric(horizontal: 7.0.wp),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -60,8 +60,8 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-            const CardProximitiSection(),
-            const CardProximitiSection()
+            const CardProximitiSection(), //this section correspond to part of home page that will show the proximiti of user position (with a list of card) but for this version we don't implement this fuctionnality
+            const CardProximitiSection() //this section correspond to part of home page that will show the proximiti of user position (with a list of card) but for this version we don't implement this fuctionnality
           ],
         ),
       ),

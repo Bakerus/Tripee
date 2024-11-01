@@ -5,17 +5,23 @@ import 'package:tripee/app/core/design/themes.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
 import 'package:tripee/app/core/widgets/card_formulaire.dart';
 import 'package:tripee/app/core/widgets/drop_down_customized.dart';
+import 'package:tripee/app/data/models/response_publication_trajet_model.dart';
 import 'package:tripee/app/modules/confirm_order/controllers/confirm_order_controller.dart';
 
 class Featuresorder extends StatelessWidget {
   final double horizontalPadding;
   final double width;
-  Featuresorder({super.key, this.horizontalPadding = 5.5, this.width = 100.0});
+ final ResponsePublicationTrajetModel? responsePublicationTrajetModel;
+
+  Featuresorder(
+      {super.key,
+      this.horizontalPadding = 5.5,
+      this.width = 100.0,
+      this.responsePublicationTrajetModel});
   final controller = Get.put(ConfirmOrderController());
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.symmetric(horizontal: 2.5.wp),
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding.wp),
       width: width.wp,
       child: Column(
@@ -26,7 +32,7 @@ class Featuresorder extends StatelessWidget {
                 width: 24.0.wp,
                 child: Center(
                   child: Text(
-                    "02/10/2024",
+                    responsePublicationTrajetModel!.departureDate.toString(),
                     style: Apptheme.ligthTheme.textTheme.titleSmall!
                         .copyWith(color: AppColors.textPlaceholderColor),
                   ),
@@ -39,7 +45,7 @@ class Featuresorder extends StatelessWidget {
                 width: 24.0.wp,
                 child: Center(
                   child: Text(
-                    "10h00",
+                    responsePublicationTrajetModel!.departureTime.toString(),
                     style: Apptheme.ligthTheme.textTheme.titleSmall!
                         .copyWith(color: AppColors.textPlaceholderColor),
                   ),
@@ -48,34 +54,43 @@ class Featuresorder extends StatelessWidget {
               widget_2: const SizedBox()),
           CardFormulaire(
               title: "Places démandées",
-              widget_1: DropDownCustomized(
-                itemsList: controller.nombrePlaces,
-                seletedItem: controller.selectednombrePlaces.value,
-                updateSelectedItem: (p0) => controller.updateSelectedItem(
-                  controller.choosedValue,
-                  controller.selectednombrePlaces.value,
-                ),
+              widget_1: Obx(
+                () => DropDownCustomized(
+                    width: 22.0,
+                    itemsList: controller.nombrePlaces,
+                    seletedItem: controller.selectednombrePlaces.value,
+                    updateSelectedItem: (p0) {
+                      controller.updateSelectedItemPlace(
+                        p0!,
+                        controller.selectednombrePlaces,
+                      );
+                      controller.calculateTotalAmount(
+                          responsePublicationTrajetModel!.price);
+                    }),
               ),
               widget_2: const SizedBox()),
           CardFormulaire(
               title: "Bagages",
-              widget_1: DropDownCustomized(
-                itemsList: controller.bagages,
-                seletedItem: controller.selectedBagages.value,
-                updateSelectedItem: (p0) => controller.updateSelectedItem(
-                  controller.choosedValue,
-                  controller.selectedBagages.value,
+              widget_1: Obx(
+                () => DropDownCustomized(
+                  itemsList: controller.bagages,
+                  seletedItem: controller.selectedBagages.value,
+                  updateSelectedItem: (p0) =>
+                      controller.updateSelectedItemBagages(
+                    p0!,
+                    controller.selectedBagages,
+                  ),
                 ),
               ),
               widget_2: const SizedBox()),
           CardFormulaire(
-            title: "Prix",
+            title: "Prix par place",
             widget_1: Text(
-              "20",
+              responsePublicationTrajetModel!.price.toString(),
               style: Apptheme.ligthTheme.textTheme.titleSmall!
                   .copyWith(color: AppColors.textPlaceholderColor),
             ),
-            widget_2: const Text("CAD"),
+            widget_2: const Text("\$CAD"),
           ),
         ],
       ),

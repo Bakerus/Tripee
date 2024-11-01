@@ -62,6 +62,20 @@ class ActionsSections extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () => NavigationHelper.navigateWithFadeInWithBack(
+                          context, OrderBinding(), const OrderView()),
+                      child: const CardHome(
+                        marginLeft: 0.0,
+                        marginRight: 0.0,
+                        cardColor: AppColors.darkColor,
+                        circleAvatarColor: AppColors.primaryColor,
+                        iconColor:
+                            ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                        label: "Reserver un trajet",
+                        iconName: "assets/icones/reservation.svg",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => NavigationHelper.navigateWithFadeInWithBack(
                           context, ExpeditionBinding(), const ExpeditionView()),
                       child: const CardHome(
                         cardColor: AppColors.tertiaryColor,
@@ -70,18 +84,6 @@ class ActionsSections extends StatelessWidget {
                             AppColors.primaryColor, BlendMode.srcIn),
                         label: "Expédier un colis",
                         iconName: "assets/icones/colis.svg",
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => NavigationHelper.navigateWithFadeInWithBack(
-                          context, OrderBinding(),  const OrderView()),
-                      child: const CardHome(
-                        cardColor: AppColors.darkColor,
-                        circleAvatarColor: AppColors.primaryColor,
-                        iconColor:
-                            ColorFilter.mode(AppColors.white, BlendMode.srcIn),
-                        label: "Reserver un trajet",
-                        iconName: "assets/icones/reservation.svg",
                       ),
                     ),
                   ],

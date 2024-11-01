@@ -46,7 +46,7 @@ class WalletSection extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "${540}",
+                    "\$${0}",
                     style: Apptheme.ligthTheme.textTheme.headlineLarge,
                   ),
                   ElevatedButton(
@@ -103,7 +103,7 @@ class WalletSection extends StatelessWidget {
                             const Row(
                               children: [
                                 Text(
-                                  "4",
+                                  "-",
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: AppColors.darkColor,

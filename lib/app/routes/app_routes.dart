@@ -28,7 +28,7 @@ abstract class Routes {
   static const recipeMessage = _Paths.recipeMessage;
   static const discussionMessage = _Paths.discussionMessage;
   static const recipePayment = _Paths.recipePayment;
-  static const USER_ACCOUNT = _Paths.USER_ACCOUNT;
+  static const userAccount = _Paths.userAccount;
 }
 
 abstract class _Paths {
@@ -58,5 +58,5 @@ abstract class _Paths {
   static const recipeMessage = '/recipe-message';
   static const discussionMessage = '/discussion-message';
   static const recipePayment = '/recipe-payment';
-  static const USER_ACCOUNT = '/user-account';
+  static const userAccount = '/user-account';
 }

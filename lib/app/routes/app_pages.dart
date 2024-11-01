@@ -88,7 +88,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.otpVerification,
-      page: () => const OtpVerificationView(),
+      page: () => OtpVerificationView(),
       binding: OtpVerificationBinding(),
     ),
     GetPage(
@@ -103,7 +103,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.editerPublication,
-      page: () => const EditerPublicationView(),
+      page: () => EditerPublicationView(),
       binding: EditerPublicationBinding(),
     ),
     GetPage(
@@ -138,7 +138,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.postPublication,
-      page: () => const PostPublicationView(),
+      page: () => PostPublicationView(),
       binding: PostPublicationBinding(),
     ),
     GetPage(
@@ -163,17 +163,17 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.postOrder,
-      page: () => const PostOrderView(),
+      page: () => PostOrderView(),
       binding: PostOrderBinding(),
     ),
     GetPage(
       name: _Paths.postExpedition,
-      page: () => const PostExpeditionView(),
+      page: () => PostExpeditionView(),
       binding: PostExpeditionBinding(),
     ),
     GetPage(
       name: _Paths.recipeMessage,
-      page: () => const RecipeMessageView(),
+      page: () => RecipeMessageView(),
       binding: RecipeMessageBinding(),
     ),
     GetPage(
@@ -187,7 +187,7 @@ class AppPages {
       binding: RecipePaymentBinding(),
     ),
     GetPage(
-      name: _Paths.USER_ACCOUNT,
+      name: _Paths.userAccount,
       page: () => UserAccountView(),
       binding: UserAccountBinding(),
     ),

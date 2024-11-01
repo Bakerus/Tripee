@@ -6,9 +6,10 @@ import 'package:tripee/app/core/utils/extesions.dart';
 import 'package:tripee/app/core/utils/transition_animations.dart';
 import 'package:tripee/app/core/widgets/buttons_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_header.dart';
+import 'package:tripee/app/core/widgets/dialog_loading.dart';
 import 'package:tripee/app/core/widgets/loader_page.dart';
-import 'package:tripee/app/modules/editer_publication/bindings/editer_publication_binding.dart';
-import 'package:tripee/app/modules/editer_publication/views/editer_publication_view.dart';
+import 'package:tripee/app/modules/dasboard/bindings/dashboard_binding.dart';
+import 'package:tripee/app/modules/dasboard/views/dashboard_view.dart';
 import 'package:tripee/app/modules/publication/views/widgets/feature_second_section.dart';
 import 'package:tripee/app/modules/publication/views/widgets/features_first_section.dart';
 import 'package:tripee/app/modules/publication/views/widgets/header_second_section.dart';
@@ -40,8 +41,11 @@ class PublicationView extends GetView<PublicationController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const CardHeader(
-                          icon: Icons.arrow_back,
+                        GestureDetector(
+                          onTap: ()=> Get.back(),
+                          child: const CardHeader(
+                            icon: Icons.arrow_back,
+                          ),
                         ),
                         Text(
                           "Publier un trajet",
@@ -70,7 +74,10 @@ class PublicationView extends GetView<PublicationController> {
                                   const HearderFirstSection(
                                     actions: "Specifiez votre trajet !",
                                   ),
-                                  const Search(),
+                                  Search(
+                                    lieuDepart: controller.lieuDepart,
+                                    lieuArrive: controller.lieuArrive,
+                                  ),
                                   FeaturesFirstSection(),
                                 ],
                               ),
@@ -81,7 +88,7 @@ class PublicationView extends GetView<PublicationController> {
                                 key: ValueKey(2),
                                 children: [
                                   HeaderSecondSection(),
-                                  SizedBox(height: 10), // Ou tout autre widget
+                                  SizedBox(height: 10), 
                                   FeatureSecondSection(),
                                 ],
                               ),
@@ -123,19 +130,37 @@ class PublicationView extends GetView<PublicationController> {
                                 backgroundColor: AppColors.primaryColor,
                                 forgroundColor: AppColors.white,
                                 borderColor: Colors.transparent,
-                                onPressed: () => NavigationHelper
-                                    .navigateToSuccesOrFailedPage(
-                                        context,
-                                        LoaderPage(
-                                          actions: "Trajet publié!",
-                                          transition: () => NavigationHelper
-                                              .navigateWithFadeInWithBack(
-                                            context,
-                                            EditerPublicationBinding(),
-                                            const EditerPublicationView(),
-                                          ),
-                                        )),
-                              )),
+                                onPressed: () async {
+                                  await controller.fetchPlacesInfo(
+                                      place: controller.lieuDepart.value,
+                                      state: true);
+                                  await controller.fetchPlacesInfo(
+                                      place: controller.lieuArrive.value,
+                                      state: false);
+                                  await controller.getPublicationInformations();
+                                  showDialog(
+                                    context:
+                                        context.mounted ? context : context,
+                                    builder: (context) => const DialogLoading(),
+                                  );
+
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    NavigationHelper
+                                        .navigateToSuccesOrFailedPage(
+                                            context.mounted ? context : context,
+                                            LoaderPage(
+                                                actions: "Trajet publié!",
+                                                transition: () {
+                                                  NavigationHelper
+                                                      .navigateWithFadeInWithBack(
+                                                    context,
+                                                    DashboardBinding(),
+                                                    DashboardView(),
+                                                  );
+                                                }));
+                                  });
+                                })),
                       ],
                     ),
                   ),

@@ -13,7 +13,7 @@ class LoaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       transition();
     });
     return Scaffold(

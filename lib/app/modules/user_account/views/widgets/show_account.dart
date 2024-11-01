@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripee/app/core/design/colors.dart';
@@ -6,18 +8,19 @@ import 'package:tripee/app/core/utils/extesions.dart';
 import 'package:tripee/app/core/widgets/buttons_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_header.dart';
 import 'package:tripee/app/modules/user_account/controllers/user_account_controller.dart';
-import 'package:tripee/app/modules/user_account/views/widgets/textField_account.dart';
+import 'package:tripee/app/modules/user_account/views/widgets/textfield_account.dart';
 
 class ShowAccount extends StatelessWidget {
   ShowAccount({super.key});
-  final controller = Get.put(UserAccountController());
 
+  final controller = Get.put(UserAccountController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.textColor,
         foregroundColor: AppColors.white,
+        automaticallyImplyLeading: false,
         title: Container(
           padding: EdgeInsets.only(right: 45.0.wp),
           child: Row(
@@ -59,7 +62,7 @@ class ShowAccount extends StatelessWidget {
             ],
           ),
           Positioned(
-            bottom: 11.0.hp,
+            bottom: 12.0.hp,
             child: SizedBox(
               height: 60.0.hp,
               child: Column(
@@ -68,33 +71,44 @@ class ShowAccount extends StatelessWidget {
                   Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
-                      CircleAvatar(
-                        radius: 50.0.sp,
-                        backgroundColor: AppColors.textPlaceholderColor,
-                      ),
-                      const IconButton(
-                          onPressed: null, icon: Icon(Icons.camera_alt))
+                      Obx(() => Container(
+                            width: 35.0.wp,
+                            height: 20.0.hp,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: (controller.imagePath.value == "")
+                                        ? const AssetImage(
+                                            "assets/images/placeholder.jpeg")
+                                        : FileImage(File(
+                                            controller.imagePath.toString())),
+                                    fit: BoxFit.cover),
+                                color: AppColors.backgroundColor,
+                                shape: BoxShape.circle),
+                          )),
+                      IconButton(
+                          onPressed: () => controller.getImage(),
+                          icon: const Icon(Icons.camera_alt))
                     ],
                   ),
                   TextfieldAccount(
                     title: "Nom",
                     color: AppColors.primaryColor.withOpacity(0.07),
-                    hintText: "Dr Mederos",
-                    initialValue: "Dr Mederos",
+                    icon: Icons.person_3_outlined,
+                    hintText: "BAKEHE WILLIAM STEVE",
                     onChanged: (p0) {},
                   ),
                   TextfieldAccount(
                     title: "Numero de telephone",
                     color: AppColors.white,
+                    icon: Icons.remove_red_eye_outlined,
                     hintText: "+12 **** 7890",
-                    initialValue: "+12 **** 7890",
                     onChanged: (p0) {},
                   ),
                   TextfieldAccount(
                     title: "Email",
                     color: AppColors.white,
-                    hintText: "mederos@gmail.com",
-                    initialValue: "mederos@gmail.com",
+                    icon: Icons.email_outlined,
+                    hintText: "bakehew@gmail.com",
                     onChanged: (p0) {},
                   ),
                   SizedBox(
@@ -114,3 +128,4 @@ class ShowAccount extends StatelessWidget {
     );
   }
 }
+// Second page of userAccount section 

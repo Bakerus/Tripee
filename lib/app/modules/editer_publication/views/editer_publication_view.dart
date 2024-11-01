@@ -18,7 +18,10 @@ import 'package:tripee/app/modules/publication/views/widgets/search.dart';
 import '../controllers/editer_publication_controller.dart';
 
 class EditerPublicationView extends GetView<EditerPublicationController> {
-  const EditerPublicationView({super.key});
+  EditerPublicationView({super.key});
+  @override
+  final controller = Get.put(EditerPublicationController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

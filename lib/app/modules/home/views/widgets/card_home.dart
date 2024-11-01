@@ -10,19 +10,23 @@ class CardHome extends StatelessWidget {
   final ColorFilter iconColor;
   final String label;
   final String iconName;
+  final double marginRight;
+  final double marginLeft;
   const CardHome(
       {super.key,
       required this.cardColor,
       required this.circleAvatarColor,
       required this.iconColor,
       required this.label,
-      required this.iconName});
+      required this.iconName,
+      this.marginRight = 5.5,
+      this.marginLeft = 5.5});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
-      margin: const EdgeInsets.only(right: 15.0),
+      margin: EdgeInsets.only(left: marginLeft.wp, right: marginRight.wp),
       height: 11.5.hp,
       width: 50.0.wp,
       decoration: BoxDecoration(

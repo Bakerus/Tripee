@@ -70,16 +70,13 @@ class SearchSection extends StatelessWidget {
                 width: 100.0.wp,
                 child: ElevatedButton(
                     onPressed: () {
-                      // controller.fetchPlacesInfo(
-                      //     place: controller.lieuDepart.value, state: true);
-                      // controller.fetchPlacesInfo(
-                      //     place: controller.lieuArrive.value, state: false);
                       NavigationHelper.navigateWithFadeInWithBack(
                           context,
                           OrderBinding(),
                           OrderView(
-                            initialValueDepart: controller.lieuDepart.value,
-                            initialValueArrive: controller.lieuArrive.value,
+                            initialValueDepart: controller.lieuDepart,
+                            initialValueArrive: controller.lieuArrive,
+                            fromHomePage: true,
                           ));
                     },
                     style: ButtonStyle(

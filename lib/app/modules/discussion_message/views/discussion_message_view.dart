@@ -11,9 +11,20 @@ import 'package:tripee/app/modules/discussion_message/views/widgets/bubble_messa
 import '../controllers/discussion_message_controller.dart';
 
 class DiscussionMessageView extends GetView<DiscussionMessageController> {
-  const DiscussionMessageView({super.key});
+  final String userName;
+  final int receiverId;
+  final int senderId;
+  final String convId;
+  const DiscussionMessageView(
+      {super.key,
+      this.userName = '',
+      this.receiverId = 0,
+      this.senderId = 0,
+      this.convId = ''});
+
   @override
   Widget build(BuildContext context) {
+    controller.fetchContentMessages(convId);
     return Container(
       color: AppColors.white,
       child: SafeArea(
@@ -28,10 +39,13 @@ class DiscussionMessageView extends GetView<DiscussionMessageController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const CardHeader(
-                  icon: Icons.arrow_back,
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: const CardHeader(
+                    icon: Icons.arrow_back,
+                  ),
                 ),
-                Text('Bakehe William',
+                Text(userName,
                     style: Apptheme.ligthTheme.textTheme.headlineMedium),
               ],
             ),
@@ -40,32 +54,42 @@ class DiscussionMessageView extends GetView<DiscussionMessageController> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 5.5.wp, vertical: 2.0.hp),
-              child: const Column(
-                children: [
-                  BubbleMessageSend(
-                    message: "Hello",
-                    hours: '10:30',
-                  ),
-                  BubbleMessageReceved(
-                    message: "Hi",
-                    hours: "20:30",
-                  ),
-                ],
+            Expanded(
+              child: Obx(
+                () => (controller.messages.isEmpty)
+                    ? const Text("No messages")
+                    : ListView.builder(
+                        itemCount: controller.messages.length,
+                        itemBuilder: (context, index) {
+                          final message = controller.messages[index];
+                          final isSender = message.senderId ==
+                              int.parse(controller.userInfo!["userId"]);
+                          return isSender
+                              ? BubbleMessageSend(
+                                  message: message.content,
+                                  hours: message.sendingTime,
+                                )
+                              : (message.senderId == receiverId)
+                                  ? BubbleMessageReceved(
+                                      message: message.content,
+                                      hours: message.sendingTime,
+                                    )
+                                  : const SizedBox.shrink();
+                        },
+                      ),
               ),
             ),
             Container(
               margin:
                   EdgeInsets.symmetric(horizontal: 5.0.wp, vertical: 1.5.hp),
-              // La hauteur est supprimée pour permettre un ajustement dynamique
               child: TextField(
+                controller: controller.messageController,
                 decoration: InputDecoration(
-                  suffixIcon: const IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.emoji_emotions,
+                  suffixIcon: IconButton(
+                    onPressed: () => controller.sendMessages(
+                        receiverId: receiverId, convId: convId),
+                    icon: const Icon(
+                      Icons.send,
                       color: AppColors.primaryColor,
                     ),
                   ),

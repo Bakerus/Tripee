@@ -31,7 +31,7 @@ class BubbleMessageReceved extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                           bottomLeft: Radius.circular(10))),
                   child: Text(
