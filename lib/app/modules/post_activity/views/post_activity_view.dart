@@ -26,6 +26,7 @@ class PostActivityView extends GetView<PostActivityController> {
           bottom: TabBar(
             onTap: (index) {
               controller.changeTabIndex(index);
+              controller.refreshCurrentTabData(index);
             },
             indicatorColor: Colors.transparent,
             overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),

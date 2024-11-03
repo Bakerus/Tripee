@@ -61,8 +61,6 @@ class PostPublicationController extends GetxController {
     }
     return null;
   }
-
-  
 }
 /**
  * This file defines the `PostPublicationController` class, which is responsible for managing 

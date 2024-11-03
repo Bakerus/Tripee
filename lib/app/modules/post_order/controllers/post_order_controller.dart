@@ -16,7 +16,6 @@ class PostOrderController extends GetxController {
 
   Map<String, dynamic>? userInfo;
   final searching = false.obs;
-  
 
   @override
   Future<void> onInit() async {
@@ -51,7 +50,6 @@ class PostOrderController extends GetxController {
 
   fetchDriverInfos(String rideId, String token) async {
     infoDriverPublication = await publicationTrajetProvider
-    
         .getUserInformationsbytrajet(rideId, token);
   }
 

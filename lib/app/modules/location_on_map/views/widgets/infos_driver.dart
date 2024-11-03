@@ -55,12 +55,12 @@ class InfosDriver extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 53.0.wp,
+                  width: 52.0.wp,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CircleAvatar(
-                        radius: 28.0.sp,
+                        radius: 26.0.sp,
                         backgroundImage: (imagePath != null)
                             ? NetworkImage(imagePath.toString())
                             : const AssetImage(
@@ -70,6 +70,7 @@ class InfosDriver extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(id,
+                              softWrap: true,
                               style: Apptheme.ligthTheme.textTheme.titleSmall!
                                   .copyWith(
                                       color: AppColors.textSecondaryColor)),
