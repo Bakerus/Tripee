@@ -14,7 +14,7 @@ Before starting, ensure the following requirements are met:
   ```
 - Change to the project directory:
   ```bash
-  cd flutter-frontend
+  cd flutter-frontend/tripee
   ```
 - Ensure your development environment is on the same network as the server machine. Connection credentials are specified in the `identifiants_connections_to_backend.dart` file located in the `constants` directory.
 
