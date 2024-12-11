@@ -60,7 +60,6 @@ class ConfirmOrderController extends GetxController {
 
   demandReservation(ReservationRequestModel reservation, String token) {
     reservationPrider.postReservation(reservation, token);
-   
   }
 
   Future<Map<String, dynamic>?> readUserInformations() async {

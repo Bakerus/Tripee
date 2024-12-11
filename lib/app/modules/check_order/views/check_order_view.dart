@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tripee/app/core/design/colors.dart';
 import 'package:tripee/app/core/design/themes.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
-import 'package:tripee/app/core/widgets/buttons_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_header.dart';
 import 'package:tripee/app/data/models/reservation_response_model.dart';
 import 'package:tripee/app/modules/check_order/views/widgets/features_check_order.dart';
@@ -14,7 +12,8 @@ import '../controllers/check_order_controller.dart';
 
 class CheckOrderView extends GetView<CheckOrderController> {
   final Future<List<ReservationResponseModel>>? reservationList;
-  const CheckOrderView({super.key, this.reservationList});
+  final String userName;
+  const CheckOrderView({super.key, this.reservationList, this.userName = ""});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,55 +48,13 @@ class CheckOrderView extends GetView<CheckOrderController> {
                 FeaturesCheckOrder(
                   width: 90.0,
                   horizontalPadding: 1.0,
+                  userName: userName,
                   reservationList: reservationList,
                 ),
                 const SliderButton(
                   icons: Icons.arrow_forward,
                 ),
               ],
-            ),
-            Obx(
-              () => Container(
-                width: 100.0.wp,
-                height: 24.0.hp,
-                decoration: const BoxDecoration(
-                  color: AppColors.white,
-                  border: Border(
-                      top:
-                          BorderSide(width: 1.0, color: AppColors.borderColor)),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 5.0.wp),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Total'),
-                        Text(" ${controller.totalAmount.value}\$ ",
-                            style: Apptheme.ligthTheme.textTheme.headlineSmall!
-                                .copyWith(color: AppColors.textColor))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Places restantes'),
-                        Text("-- Places",
-                            style: Apptheme.ligthTheme.textTheme.headlineSmall!
-                                .copyWith(color: AppColors.textColor))
-                      ],
-                    ),
-                    ButtonsFormulaire(
-                      title: "Valider la demande",
-                      backgroundColor: AppColors.primaryColor,
-                      forgroundColor: AppColors.white,
-                      borderColor: Colors.transparent,
-                      onPressed: () {},
-                    )
-                  ],
-                ),
-              ),
             ),
           ],
         ),

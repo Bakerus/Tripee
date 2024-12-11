@@ -46,6 +46,7 @@ class OnboardinScreenView extends GetView<OnboardinScreenController> {
                     );
                   },
                   child: Image.asset(
+                    width: 100.0.wp,
                     controller.onboardData[controller.currentpage.value].image,
                     key: ValueKey<int>(controller.currentpage.value),
                     fit: BoxFit.cover,

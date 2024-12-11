@@ -55,7 +55,7 @@ class InfosDriver extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 52.0.wp,
+                  width: 57.0.wp,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -88,6 +88,7 @@ class InfosDriver extends StatelessWidget {
                 GestureDetector(
                   onTap: () async {
                     if (action != "Publication") {
+
                       await locationController.checkExistConversation(
                           convId:
                               "${locationController.userInfo!["userId"]}-${int.parse(id)}",
@@ -96,6 +97,7 @@ class InfosDriver extends StatelessWidget {
                           userId:
                               int.parse(locationController.userInfo!["userId"]),
                           username: locationController.userInfo!["username"]);
+
                       if (locationController.conversationExist.value == false) {
                         await locationController.createConversation(
                             convId:
@@ -105,6 +107,19 @@ class InfosDriver extends StatelessWidget {
                             username: locationController.userInfo!["username"],
                             interlocutorId: int.parse(id),
                             interlocutorName: userName);
+
+                        NavigationHelper.navigateWithFadeInWithBack(
+                            context.mounted ? context : context,
+                            DiscussionMessageBinding(),
+                            DiscussionMessageView(
+                              userName: userName,
+                              senderId:
+                                  int.parse(controller.userInfo!["userId"]),
+                              receiverId: int.parse(id),
+                              convId:
+                                  "${locationController.userInfo!["userId"]}-${int.parse(id)}",
+                            ));
+                      } else {
                         NavigationHelper.navigateWithFadeInWithBack(
                             context.mounted ? context : context,
                             DiscussionMessageBinding(),
@@ -125,6 +140,7 @@ class InfosDriver extends StatelessWidget {
                           context.mounted ? context : context,
                           CheckOrderBinding(),
                           CheckOrderView(
+                            userName: userName,
                             reservationList: controller.reserVationsList,
                           ));
                     }

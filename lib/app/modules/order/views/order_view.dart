@@ -10,6 +10,8 @@ import 'package:tripee/app/core/widgets/card_header.dart';
 import 'package:tripee/app/core/widgets/card_triper.dart';
 import 'package:tripee/app/modules/confirm_order/bindings/confirm_order_binding.dart';
 import 'package:tripee/app/modules/confirm_order/views/confirm_order_view.dart';
+import 'package:tripee/app/modules/dasboard/bindings/dashboard_binding.dart';
+import 'package:tripee/app/modules/dasboard/views/dashboard_view.dart';
 import 'package:tripee/app/modules/order/bindings/order_binding.dart';
 import 'package:tripee/app/modules/publication/views/widgets/hearder_section.dart';
 import 'package:tripee/app/modules/publication/views/widgets/search.dart';
@@ -47,7 +49,9 @@ class OrderView extends GetView<OrderController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
-                        onTap: () => Get.back(),
+                        onTap: () =>
+                            NavigationHelper.navigateWithFadeInWithBack(
+                                context, DashboardBinding(), DashboardView()),
                         child: const CardHeader(
                           icon: Icons.arrow_back,
                         ),
@@ -97,7 +101,18 @@ class OrderView extends GetView<OrderController> {
                           SearchingView(
                             transition: () =>
                                 NavigationHelper.navigateWithFadeWithtBack(
-                                    context, OrderBinding(), const OrderView()),
+                                    context,
+                                    OrderBinding(),
+                                    OrderView(
+                                      initialValueDepart:
+                                          (fromHomePage == false)
+                                              ? controller.lieuDepart
+                                              : initialValueDepart,
+                                      initialValueArrive:
+                                          (fromHomePage == false)
+                                              ? controller.lieuArrive
+                                              : initialValueArrive!,
+                                    )),
                           ));
                     },
                   ),

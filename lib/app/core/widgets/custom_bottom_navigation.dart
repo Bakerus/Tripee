@@ -22,10 +22,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              GestureDetector(
-                onTap: () => controller.onItemTapped(0),
-                child: SizedBox(
-                  height: 5.0.hp,
+              Container(
+                height: 8.0.hp,
+                width: 17.0.wp,
+                padding: EdgeInsets.symmetric(vertical: 0.7.hp),
+                child: GestureDetector(
+                  onTap: () => controller.onItemTapped(0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -48,10 +50,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () => controller.onItemTapped(1),
-                child: SizedBox(
-                  height: 5.0.hp,
+              Container(
+                height: 8.0.hp,
+                width: 17.0.wp,
+                padding: EdgeInsets.symmetric(vertical: 0.7.hp),
+                child: GestureDetector(
+                  onTap: () => controller.onItemTapped(1),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -74,10 +78,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () => controller.onItemTapped(2),
-                child: SizedBox(
-                  height: 5.0.hp,
+              Container(
+                height: 8.0.hp,
+                width: 17.0.wp,
+                padding: EdgeInsets.symmetric(vertical: 0.7.hp),
+                child: GestureDetector(
+                  onTap: () => controller.onItemTapped(2),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -100,10 +106,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () => controller.onItemTapped(3),
-                child: SizedBox(
-                  height: 5.0.hp,
+              Container(
+                height: 8.0.hp,
+                width: 17.0.wp,
+                padding: EdgeInsets.symmetric(vertical: 0.7.hp),
+                child: GestureDetector(
+                  onTap: () => controller.onItemTapped(3),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -126,10 +134,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () => controller.onItemTapped(4),
-                child: SizedBox(
-                  height: 5.0.hp,
+              Container(
+                height: 8.0.hp,
+                width: 17.0.wp,
+                padding: EdgeInsets.symmetric(vertical: 0.7.hp),
+                child: GestureDetector(
+                  onTap: () => controller.onItemTapped(4),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

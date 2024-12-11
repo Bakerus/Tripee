@@ -7,15 +7,21 @@ class DialogLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      surfaceTintColor: AppColors.white,
-      content: SizedBox(
-        height: 20.0.hp,
-        width: 20.0.wp,
-        child: const Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 6,
-            color: AppColors.primaryColor,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0.wp),
+      width: 3.0.wp,
+      height: 25.0.hp,
+      child: AlertDialog(
+        scrollable: true,
+        backgroundColor: const Color.fromARGB(206, 255, 255, 255),
+        content: Center(
+          child: SizedBox(
+            width: 17.0.wp,
+            height: 8.0.hp,
+            child: const CircularProgressIndicator(
+              strokeWidth: 5,
+              color: AppColors.primaryColor,
+            ),
           ),
         ),
       ),

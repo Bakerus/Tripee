@@ -20,17 +20,22 @@ class PublicationTrajetProvider {
         .toList();
   }
 
-  postTrajet(String publicationTrajetModel, String imagePath, String token,
+  Future<bool> postTrajet(
+      String publicationTrajetModel, String imagePath, String token,
       {String action = "save"}) async {
     var request = http.MultipartRequest('POST',
         Uri(scheme: "http", host: host, port: port, path: "$path/$action"));
     request.headers.addAll({"Authorization": "Bearer $token"});
-
     request.files
         .add(await http.MultipartFile.fromPath('vehicleImage', imagePath));
     request.fields['rideRequest'] = publicationTrajetModel;
     var response = await request.send();
     debugPrint(response.statusCode.toString());
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<List<ResponsePublicationTrajetModel>> getTrajet(
@@ -120,7 +125,31 @@ class PublicationTrajetProvider {
       throw "Exception :$e";
     }
   }
+
+  Future<void> updateTrajetStatut(
+    String actions,
+    int rideId,
+    String token,
+  ) async {
+    var url = Uri(
+        scheme: "http", host: host, port: port, path: "$path/$actions/$rideId");
+    try {
+      final response = await http.put(url,
+          body: jsonEncode(<String, dynamic>{
+            'idRide': rideId,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+    } catch (e) {
+      throw "Exception :$e";
+    }
+  }
 }
+
+
 
 
 // The PublicationTrajetProvider class handles all HTTP requests related to the "rides" feature in the application, including posting, fetching, and deleting rides.

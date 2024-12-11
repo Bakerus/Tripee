@@ -16,9 +16,15 @@ class PostActivityController extends GetxController {
   @override
   Future<void> onInit() async {
     userInfo = await readUserInformations();
+
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    refreshCurrentTabData(0);
+    super.onReady();
+  }
 
   void changeTabIndex(int index) {
     selectedTabIndex.value = index; // Mettre à jour l'index

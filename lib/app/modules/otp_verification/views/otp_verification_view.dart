@@ -100,9 +100,7 @@ class OtpVerificationView extends GetView<OtpVerificationController> {
                                   child: ElevatedButton(
                                       onPressed: () async {
                                         if (controller.otpState.value == true) {
-                                          await controller.sendUserInformations(
-                                              signUpController.user,
-                                              controller.otpValue);
+                                          await controller.sendUserInformations(signUpController.user,controller.otpValue);
                                           if (controller
                                                   .accounCanCreated.value ==
                                               false) {

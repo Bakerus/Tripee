@@ -28,9 +28,13 @@ class CardPostActivity extends StatelessWidget {
       switch (state) {
         case "En cours":
           return Colors.green;
+        case "Accepté":
+          return Colors.green;
         case "En attente":
           return Colors.blue;
         case "Terminé":
+          return AppColors.primaryColor;
+          case "Refusé":
           return AppColors.primaryColor;
         default:
           return AppColors.textColor;

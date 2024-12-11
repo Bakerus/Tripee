@@ -4,6 +4,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tripee/app/data/providers/message_provider.dart';
+import 'package:tripee/app/data/providers/publication_trajet_provider.dart';
 import 'package:tripee/app/data/services/local_file_services.dart';
 
 class LocationOnMapController extends GetxController {
@@ -18,6 +19,8 @@ class LocationOnMapController extends GetxController {
 
   final mapController = Completer<GoogleMapController>().obs;
   MessageProvider messageProvider = MessageProvider();
+  PublicationTrajetProvider publicationTrajetProvider =
+      PublicationTrajetProvider();
 
   RxMap<PolylineId, Polyline> polylines = RxMap();
   List<LatLng> polylineCoordinates = [];
@@ -60,6 +63,14 @@ class LocationOnMapController extends GetxController {
         convId, userId, username, interlocutorId, interlocutorName);
   }
 
+  startRide(String token, int rideId, {String actions = "startRide"}) {
+    publicationTrajetProvider.updateTrajetStatut(actions, rideId, token);
+  }
+    terminateRide(String token, int rideId, {String actions = "terminateRide"}) {
+    publicationTrajetProvider.updateTrajetStatut(actions, rideId, token);
+  }
+
+
   Future<Map<String, dynamic>?> readUserInformations() async {
     final jsonString = await LocalFileServices().readFromFile();
     if (jsonString != null) {
@@ -67,8 +78,6 @@ class LocationOnMapController extends GetxController {
     }
     return null;
   }
-
-
 }
 /**
  * This file defines the `LocationOnMapController` class, which manages map functionalities, polyline routes,

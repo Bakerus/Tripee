@@ -39,6 +39,7 @@ class PublicationController extends GetxController {
     '4',
     '5',
   ];
+  final publicationStatut = true.obs;
 
   @override
   Future<void> onInit() async {
@@ -125,7 +126,7 @@ class PublicationController extends GetxController {
     String imagePath,
     String token,
   ) async {
-    await publicationTrajetProvider.postTrajet(
+    publicationStatut.value = await publicationTrajetProvider.postTrajet(
       publicationTrajetModel,
       imagePath,
       token,

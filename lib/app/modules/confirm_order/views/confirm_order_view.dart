@@ -85,7 +85,7 @@ class ConfirmOrderView extends GetView<ConfirmOrderController> {
                     ],
                   ),
                   ButtonsFormulaire(
-                    title: "Reservé",
+                    title: "Reserver",
                     backgroundColor: AppColors.primaryColor,
                     forgroundColor: AppColors.white,
                     borderColor: Colors.transparent,

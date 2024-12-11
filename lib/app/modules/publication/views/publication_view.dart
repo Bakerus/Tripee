@@ -6,6 +6,7 @@ import 'package:tripee/app/core/utils/extesions.dart';
 import 'package:tripee/app/core/utils/transition_animations.dart';
 import 'package:tripee/app/core/widgets/buttons_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_header.dart';
+import 'package:tripee/app/core/widgets/dialog_error.dart';
 import 'package:tripee/app/core/widgets/dialog_loading.dart';
 import 'package:tripee/app/core/widgets/loader_page.dart';
 import 'package:tripee/app/modules/dasboard/bindings/dashboard_binding.dart';
@@ -42,7 +43,7 @@ class PublicationView extends GetView<PublicationController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: ()=> Get.back(),
+                          onTap: () => Get.back(),
                           child: const CardHeader(
                             icon: Icons.arrow_back,
                           ),
@@ -88,7 +89,7 @@ class PublicationView extends GetView<PublicationController> {
                                 key: ValueKey(2),
                                 children: [
                                   HeaderSecondSection(),
-                                  SizedBox(height: 10), 
+                                  SizedBox(height: 10),
                                   FeatureSecondSection(),
                                 ],
                               ),
@@ -106,7 +107,7 @@ class PublicationView extends GetView<PublicationController> {
                           top: BorderSide(
                               width: 1.0, color: AppColors.borderColor)),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 5.0.wp),
+                    padding: EdgeInsets.symmetric(horizontal: 5.0.wp, vertical: 1.5.hp),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -131,6 +132,11 @@ class PublicationView extends GetView<PublicationController> {
                                 forgroundColor: AppColors.white,
                                 borderColor: Colors.transparent,
                                 onPressed: () async {
+                                  showDialog(
+                                    context:
+                                        context.mounted ? context : context,
+                                    builder: (context) => const DialogLoading(),
+                                  );
                                   await controller.fetchPlacesInfo(
                                       place: controller.lieuDepart.value,
                                       state: true);
@@ -138,28 +144,37 @@ class PublicationView extends GetView<PublicationController> {
                                       place: controller.lieuArrive.value,
                                       state: false);
                                   await controller.getPublicationInformations();
-                                  showDialog(
-                                    context:
-                                        context.mounted ? context : context,
-                                    builder: (context) => const DialogLoading(),
-                                  );
-
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) {
-                                    NavigationHelper
-                                        .navigateToSuccesOrFailedPage(
-                                            context.mounted ? context : context,
-                                            LoaderPage(
-                                                actions: "Trajet publié!",
-                                                transition: () {
-                                                  NavigationHelper
-                                                      .navigateWithFadeInWithBack(
-                                                    context,
-                                                    DashboardBinding(),
-                                                    DashboardView(),
-                                                  );
-                                                }));
-                                  });
+                                  if (controller.publicationStatut.value ==
+                                      true) {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                      NavigationHelper
+                                          .navigateToSuccesOrFailedPage(
+                                              context.mounted
+                                                  ? context
+                                                  : context,
+                                              LoaderPage(
+                                                  actions: "Trajet publié!",
+                                                  transition: () {
+                                                    NavigationHelper
+                                                        .navigateWithFadeInWithBack(
+                                                      context,
+                                                      DashboardBinding(),
+                                                      DashboardView(),
+                                                    );
+                                                  }));
+                                    });
+                                  } else {
+                                    Navigator.of(context).pop();
+                                    showDialog(
+                                      context:
+                                          context.mounted ? context : context,
+                                      builder: (context) => const DialogError(
+                                        title: "Erreur",
+                                        describe: "Trajet invalide",
+                                      ),
+                                    );
+                                  }
                                 })),
                       ],
                     ),

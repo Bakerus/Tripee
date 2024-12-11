@@ -97,6 +97,35 @@ class ReservationPrider {
     }
   }
 
+  Future<void> updateReservationStatut(
+    String actions,
+    int reservId,
+    int rideId,
+    int numberOfPlaces,
+    String token,
+  ) async {
+    var url = Uri(
+        scheme: "http",
+        host: host,
+        port: port,
+        path: "$path/$actions/$reservId/rides/$rideId/$numberOfPlaces");
+    try {
+      final response = await http.put(url,
+          body: jsonEncode(<String, dynamic>{
+            'idRes': reservId,
+            'idRide': rideId,
+            'numberOfPlaces': numberOfPlaces
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+    } catch (e) {
+      throw "Exception :$e";
+    }
+  }
+
   Future<void> deleteReservation(
     int reservationId,
     String token,

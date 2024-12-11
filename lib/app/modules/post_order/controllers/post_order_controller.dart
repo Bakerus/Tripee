@@ -32,10 +32,10 @@ class PostOrderController extends GetxController {
   String parseStatut(statut) {
     if (statut == "ON_HOLD") {
       return "En attente";
-    } else if (statut == "IN_PROGRESS") {
-      return "En cours";
-    } else if (statut == "TERMINATED") {
-      return "Terminé";
+    } else if (statut == "ACCEPTED") {
+      return "Accepté";
+    } else if (statut == "REFUSED") {
+      return "Refusé";
     } else {
       return "";
     }

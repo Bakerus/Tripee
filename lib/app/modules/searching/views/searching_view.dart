@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:tripee/app/core/design/colors.dart';
 import 'package:tripee/app/core/design/themes.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
-import 'package:tripee/app/modules/publication/views/widgets/search.dart';
 
 import '../controllers/searching_controller.dart';
 
@@ -23,7 +22,7 @@ class SearchingView extends GetView<SearchingController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 40.0.hp,
+              height: 30.0.hp,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -59,7 +58,6 @@ class SearchingView extends GetView<SearchingController> {
                       ],
                     ),
                   ),
-                  const Search(),
                 ],
               ),
             ),

@@ -57,9 +57,13 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
       switch (state) {
         case "En cours":
           return Colors.green;
+        case "Accepté":
+          return Colors.green;
         case "En attente":
           return Colors.blue;
         case "Terminé":
+          return AppColors.tertiaryColor;
+        case "Refusé":
           return AppColors.tertiaryColor;
         default:
           return AppColors.primaryColor;
@@ -70,8 +74,12 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
       switch (state) {
         case "En cours":
           return "Trajet en cours";
+        case "Accepté":
+          return "Demande accepté";
         case "En attente":
           return "Trajet en attente";
+        case "Refusé":
+          return "Demande terminé";
         case "Terminé":
           return "Trajet terminé";
         default:
@@ -89,7 +97,7 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
             compassEnabled: true,
             initialCameraPosition: CameraPosition(
                 target: LatLng(latitudeDeparture, longitudeDeparture),
-                zoom: 11.0),
+                zoom: 4.0),
             polylines: Set<Polyline>.from(controller.polylines.values),
             markers: {
               controller.placeDepature.value.copyWith(
@@ -117,7 +125,11 @@ class LocationOnMapView extends GetView<LocationOnMapController> {
                   initialValueArrive: arrivalPlace,
                   readOnly: true,
                 ),
-                if (action == "Publication") const OptionsPostPublication(),
+                if (action == "Publication")
+                  OptionsPostPublication(
+                    state: state,
+                    rideId: int.parse(rideId),
+                  ),
                 if (action != "Publication") const OptionsPayment()
               ],
             ),

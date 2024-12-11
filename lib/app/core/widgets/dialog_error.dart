@@ -29,7 +29,7 @@ class DialogError extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 13.0.hp,
+              height: 8.0.hp,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

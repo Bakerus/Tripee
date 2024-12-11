@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tripee/app/core/design/colors.dart';
 import 'package:tripee/app/core/design/themes.dart';
 import 'package:tripee/app/core/utils/extesions.dart';
+import 'package:tripee/app/core/widgets/buttons_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_formulaire.dart';
 import 'package:tripee/app/core/widgets/card_triper.dart';
 import 'package:tripee/app/data/models/reservation_response_model.dart';
@@ -11,20 +12,21 @@ import 'package:tripee/app/modules/publication/views/widgets/search.dart';
 
 class FeaturesCheckOrder extends StatelessWidget {
   final Future<List<ReservationResponseModel>>? reservationList;
-
+  final String userName;
   final double horizontalPadding;
   final double width;
   FeaturesCheckOrder(
       {super.key,
       this.horizontalPadding = 2.5,
       this.width = 100.0,
+      required this.userName,
       required this.reservationList});
   final controller = Get.put(CheckOrderController());
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 65.0.hp,
+      height: 88.0.hp,
       child: FutureBuilder(
           future: reservationList,
           builder: (context, snapshot) {
@@ -74,20 +76,24 @@ class FeaturesCheckOrder extends StatelessWidget {
                         reservations[index].reservedPlaces;
                     controller.rideId.value = reservations[index].rideId;
                     controller.calculateTotalAmount();
+                    controller.checkStatut.value = false;
                   },
                   itemBuilder: (context, index) {
                     final reservation = reservations[index];
                     return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
                           width: 100.0.wp,
                           child: CardTriper(
                               id: reservation.user.id.toString(),
-                              name: reservation.user.userName,
+                              name: userName,
                               phoneNumber: reservation.user.phoneNumber,
+                              leftMargin: 0.0,
+                              rightMargin: 0.0,
                               bottom: 1.0),
                         ),
-                         Search(
+                        Search(
                           horizontalMarging: 0.0,
                           initialValueArrive: reservation.arrivalPLace,
                           initialValueDepart: reservation.departurePlace,
@@ -178,6 +184,75 @@ class FeaturesCheckOrder extends StatelessWidget {
                                 widget_2: const Text("\$CAD"),
                               ),
                             ],
+                          ),
+                        ),
+                        Obx(
+                          () => Container(
+                            width: 100.0.wp,
+                            height: 22.0.hp,
+                            decoration: const BoxDecoration(
+                              color: AppColors.white,
+                              border: Border(
+                                  top: BorderSide(
+                                      width: 1.0,
+                                      color: AppColors.borderColor)),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 5.0.wp),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Total'),
+                                    Text("${controller.totalAmount.value}\$ ",
+                                        style: Apptheme
+                                            .ligthTheme.textTheme.headlineSmall!
+                                            .copyWith(
+                                                color: AppColors.textColor))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Places restantes'),
+                                    Text("-- Places",
+                                        style: Apptheme
+                                            .ligthTheme.textTheme.headlineSmall!
+                                            .copyWith(
+                                                color: AppColors.textColor))
+                                  ],
+                                ),
+                                ButtonsFormulaire(
+                                  title: controller.checkStatut.value == false
+                                      ? "Valider la demande"
+                                      : "Annuler la demande",
+                                  backgroundColor:
+                                      controller.checkStatut.value == false
+                                          ? Colors.green
+                                          : AppColors.primaryColor,
+                                  forgroundColor: AppColors.white,
+                                  borderColor: Colors.transparent,
+                                  onPressed: () {
+                                    controller.checkStatut.value == false
+                                        ? controller.acceptReservation(
+                                            reservation.id,
+                                            reservation.rideId,
+                                            reservation.reservedPlaces,
+                                            controller.userInfo!['token'])
+                                        : controller.refuseReservation(
+                                            reservation.id,
+                                            reservation.rideId,
+                                            reservation.reservedPlaces,
+                                            controller.userInfo!['token']);
+                                    controller.checkStatut.value =
+                                        !controller.checkStatut.value;
+                                  },
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
